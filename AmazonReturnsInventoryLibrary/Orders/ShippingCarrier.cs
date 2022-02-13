@@ -1,6 +1,11 @@
 ﻿namespace AmazonReturnsInventoryLibrary.Orders
 {
-    internal class ShippingCarrier
+    public enum ShippingCarrier
     {
+        FedEx,
+        USPS,
+        UPS,
+        PickUp,
+        Delivery
     }
 }

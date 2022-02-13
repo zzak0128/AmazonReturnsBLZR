@@ -1,6 +1,11 @@
 ﻿namespace AmazonReturnsInventoryLibrary
 {
-    public class Condition
+    public enum Condition
     {
+        Damaged,
+        Used,
+        Good,
+        LikeNew,
+        New
     }
 }
