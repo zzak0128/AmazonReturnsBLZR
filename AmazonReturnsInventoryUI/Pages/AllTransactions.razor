@@ -1,0 +1,45 @@
+﻿@page "/all-transactions"
+@inject TransactionServices service
+
+<h3>Transactions</h3>
+
+
+
+@code {
+    List<Transaction> AllTransactions = new List<Transaction>();
+    protected override async Task OnInitializedAsync()
+    {
+        await RefreshTransactions();
+    }
+
+    private async Task RefreshTransactions()
+    {
+        AllTransactions = await service.GetTransactionsAsync();
+    }
+
+    public Transaction newTransaction { get; set; } = new Transaction();
+    private async Task AddTransaction()
+    {
+        await service.AddTransactionAsync(newTransaction);
+        newTransaction = new Transaction();
+        await RefreshTransactions();
+    }
+
+    Transaction UpdateTransaction = new Transaction();
+    private void SetProductForUpdate(Transaction transaction)
+    {
+        UpdateTransaction = transaction;
+    }
+
+    private async Task UpdateProductData()
+    {
+        await service.UpdateTransactionAsync(UpdateTransaction);
+        await RefreshTransactions();
+    }
+
+    private async Task DeleteTransaction(Transaction transaction)
+    {
+        await service.DeleteTransactionAsync(transaction);
+        await RefreshTransactions();
+    }
+}

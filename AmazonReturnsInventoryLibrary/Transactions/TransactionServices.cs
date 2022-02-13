@@ -39,7 +39,7 @@ namespace AmazonReturnsInventoryLibrary.Transactions
 
 
         //Update
-        public async Task<Transaction> UpdateProductAsync(Transaction transaction)
+        public async Task<Transaction> UpdateTransactionAsync(Transaction transaction)
         {
             try
             {
