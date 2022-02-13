@@ -4,4 +4,14 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Items\" />
+    <None Remove="Expenses\" />
+    <None Remove="Orders\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Items\" />
+    <Folder Include="Expenses\" />
+    <Folder Include="Orders\" />
+  </ItemGroup>
 </Project>
