@@ -1,12 +1,68 @@
-﻿@page "/all-transactions"
+﻿@page "/all-transactions"
 @inject TransactionServices service
 
 <h3>Transactions</h3>
 
+<div class="row m-5">
+    <EditForm Model="newTransaction">
+
+     
+            <label for="description">Description</label>
+            <InputText id="description" class="form-control" @bind-Value="@newTransaction.Description" />
+     
+
+     
+            @*<label for="type">Type</label>
+            <InputSelect id="type" class="form-control" @bind-Value="@newTransaction.Type">
+                @foreach (var option in Enum.GetValues(typeof(TransactionType)))
+                {
+                    <option>@option</option>
+                }
+            </InputSelect>*@
+       
+
+            <label for="amount">Amount</label>
+            <InputNumber id="amount" class="form-control" @bind-Value="@newTransaction.Amount" />
+        
+        <button class="btn btn-primary" onsubmit="@AddTransaction()">Add Transaction</button>
+    </EditForm>
+</div>
+
+<div class="container">
+    <table class="table table-hover table-striped">
+        <thead>
+            <tr>
+                <th>Transaction ID</th>
+                <th>Description</th>
+                <th>Type</th>
+                <th>Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if(Transactions.Any())
+            {
+                @foreach (var transaction in Transactions)
+                {
+                    <tr @onclick="(() => SetTransactionForUpdate(transaction))">
+                        <td>@transaction.TransactionID</td>
+                        <td>@transaction.Description</td>
+                        <td>@transaction.Type</td>
+                        <td>@transaction.Amount</td>
+                        <td><button class="btn btn-danger" @onclick="(() => DeleteTransaction(transaction))">Delete</button></td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr><td colspan="6"><strong>No Transactions</strong></td></tr>
+            }
+        </tbody>
+    </table>
+</div>
 
 
 @code {
-    List<Transaction> AllTransactions = new List<Transaction>();
+    List<Transaction> Transactions = new List<Transaction>();
     protected override async Task OnInitializedAsync()
     {
         await RefreshTransactions();
@@ -14,7 +70,7 @@
 
     private async Task RefreshTransactions()
     {
-        AllTransactions = await service.GetTransactionsAsync();
+        Transactions = await service.GetTransactionsAsync();
     }
 
     public Transaction newTransaction { get; set; } = new Transaction();
@@ -26,12 +82,12 @@
     }
 
     Transaction UpdateTransaction = new Transaction();
-    private void SetProductForUpdate(Transaction transaction)
+    private void SetTransactionForUpdate(Transaction transaction)
     {
         UpdateTransaction = transaction;
     }
 
-    private async Task UpdateProductData()
+    private async Task UpdateTransactionData()
     {
         await service.UpdateTransactionAsync(UpdateTransaction);
         await RefreshTransactions();

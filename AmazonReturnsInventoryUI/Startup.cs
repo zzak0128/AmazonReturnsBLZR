@@ -32,7 +32,7 @@ namespace AmazonReturnsInventoryUI
             services.AddServerSideBlazor();
             services.AddDbContext<TransactionDbContext>(options =>
             {
-                options.UseSqlite("Data Source = Transactions.db");
+                options.UseSqlite("Data Source=Transactions.db");
             });
             services.AddScoped<TransactionServices>();
         }

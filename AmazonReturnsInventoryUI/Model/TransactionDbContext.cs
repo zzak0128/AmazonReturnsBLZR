@@ -14,6 +14,9 @@ namespace AmazonReturnsInventoryLibrary.Transactions
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Transaction>().ToTable("Transactions");
+            modelBuilder.Entity<Transaction>().Property(p => p.Type).HasConversion<string>();
+
             modelBuilder.Entity<Transaction>().HasData(GetTransactions());
             base.OnModelCreating(modelBuilder);
         }
