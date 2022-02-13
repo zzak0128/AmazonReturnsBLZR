@@ -1,4 +1,4 @@
-﻿namespace AmazonReturnsInventoryLibrary.Expenses
+﻿namespace AmazonReturnsInventoryLibrary.Transactions
 {
     public enum TransactionType
     {

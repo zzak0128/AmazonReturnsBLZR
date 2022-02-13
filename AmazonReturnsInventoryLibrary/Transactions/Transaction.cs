@@ -1,5 +1,5 @@
 ﻿using System;
-namespace AmazonReturnsInventoryLibrary.Expenses
+namespace AmazonReturnsInventoryLibrary.Transactions
 {
     public class Transaction
     {
