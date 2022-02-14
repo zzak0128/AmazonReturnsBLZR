@@ -1,0 +1,41 @@
+﻿@page "/transaction-new"
+@inject TransactionService service
+@inject NavigationManager navManager
+
+<div class="row m-5">
+    <EditForm Model="newTransaction">
+
+
+        <label for="description">Description</label>
+        <InputText id="description" class="form-control" @bind-Value="@newTransaction.Description" />
+
+
+
+        <label for="type">Type</label>
+        <InputSelect id="type" class="form-control" @bind-Value="@newTransaction.Type">
+            @foreach (var option in Enum.GetValues(typeof(TransactionType)))
+            {
+                <option>@option</option>
+            }
+        </InputSelect>
+
+        <label for="quantity">Quantity</label>
+        <InputNumber id="quantity" class="form-control" @bind-Value="@newTransaction.Quantity" />
+
+        <label for="amount">Amount</label>
+        <InputNumber id="amount" class="form-control" @bind-Value="@newTransaction.Amount" />
+
+        <button class="btn btn-primary" @onclick="AddTransaction">Add Transaction</button>
+    </EditForm>
+</div>
+
+@code {
+    public Transaction newTransaction { get; set; } = new Transaction();
+
+    private async Task AddTransaction()
+    {
+        await service.AddTransactionAsync(newTransaction);
+        newTransaction = new Transaction();
+        navManager.NavigateTo("all-transactions");
+    }
+}

@@ -10,7 +10,7 @@ namespace AmazonReturnsInventoryLibrary.Transactions
         {
         }
 
-        public DbSet<Transaction> Transaction { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -25,7 +25,7 @@ namespace AmazonReturnsInventoryLibrary.Transactions
         {
             return new List<Transaction>
             {
-                new Transaction { TransactionID = 1, Description = "MyFirst Transaction", Type = TransactionType.Income, Amount = 20.55}
+                new Transaction { TransactionID = 1, Description = "MyFirst Transaction", Type = TransactionType.Income,Quantity = 1, Amount = 20.55}
             };
         }
     }

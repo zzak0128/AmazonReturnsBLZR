@@ -1,45 +1,32 @@
 ﻿@page "/all-transactions"
-@inject TransactionServices service
+@inject TransactionService service
+@inject NavigationManager navManager
 
 <h3>Transactions</h3>
 
-<div class="row m-5">
-    <EditForm Model="newTransaction">
-
-     
-            <label for="description">Description</label>
-            <InputText id="description" class="form-control" @bind-Value="@newTransaction.Description" />
-     
-
-     
-            @*<label for="type">Type</label>
-            <InputSelect id="type" class="form-control" @bind-Value="@newTransaction.Type">
-                @foreach (var option in Enum.GetValues(typeof(TransactionType)))
-                {
-                    <option>@option</option>
-                }
-            </InputSelect>*@
-       
-
-            <label for="amount">Amount</label>
-            <InputNumber id="amount" class="form-control" @bind-Value="@newTransaction.Amount" />
-        
-        <button class="btn btn-primary" onsubmit="@AddTransaction()">Add Transaction</button>
-    </EditForm>
+<div class="container">
+    <button class="btn btn-primary" @onclick="NavigateToCreate">New Transaction</button>
 </div>
 
 <div class="container">
+   
+        <p>Total: @totalExpense</p>
+        
+    
     <table class="table table-hover table-striped">
         <thead>
             <tr>
                 <th>Transaction ID</th>
                 <th>Description</th>
                 <th>Type</th>
+                <th>Quantity</th>
                 <th>Amount</th>
+                <th>Total</th>
             </tr>
         </thead>
         <tbody>
-            @if(Transactions.Any())
+
+            @if (Transactions.Any())
             {
                 @foreach (var transaction in Transactions)
                 {
@@ -47,7 +34,9 @@
                         <td>@transaction.TransactionID</td>
                         <td>@transaction.Description</td>
                         <td>@transaction.Type</td>
+                        <td>@transaction.Quantity</td>
                         <td>@transaction.Amount</td>
+                        <td>@(transaction.Amount * transaction.Quantity)</td>
                         <td><button class="btn btn-danger" @onclick="(() => DeleteTransaction(transaction))">Delete</button></td>
                     </tr>
                 }
@@ -62,10 +51,33 @@
 
 
 @code {
+    double totalExpense = 0.00;
+
+
     List<Transaction> Transactions = new List<Transaction>();
     protected override async Task OnInitializedAsync()
     {
         await RefreshTransactions();
+        CalculateTotal();
+    }
+
+    private void CalculateTotal()
+    {
+        totalExpense = 0.00;
+        foreach (var transaction in Transactions)
+        {
+            int quantity = transaction.Quantity;
+            double amount = transaction.Amount;
+            double itemTotal = quantity * amount;
+            if(transaction.Type == TransactionType.Expense)
+            {
+                totalExpense -= itemTotal;
+            }
+            else
+            {
+                totalExpense += itemTotal;
+            }
+        }
     }
 
     private async Task RefreshTransactions()
@@ -73,13 +85,11 @@
         Transactions = await service.GetTransactionsAsync();
     }
 
-    public Transaction newTransaction { get; set; } = new Transaction();
-    private async Task AddTransaction()
+    private void NavigateToCreate()
     {
-        await service.AddTransactionAsync(newTransaction);
-        newTransaction = new Transaction();
-        await RefreshTransactions();
+        navManager.NavigateTo("transaction-new");
     }
+
 
     Transaction UpdateTransaction = new Transaction();
     private void SetTransactionForUpdate(Transaction transaction)
@@ -97,5 +107,6 @@
     {
         await service.DeleteTransactionAsync(transaction);
         await RefreshTransactions();
+        CalculateTotal();
     }
 }

@@ -15,10 +15,14 @@
     <None Remove="Microsoft.EntityFrameworkCore.Sqlite" />
     <None Remove="Microsoft.EntityFrameworkCore.Tools" />
     <None Remove="Model\" />
+    <None Remove="Model\Transaction\" />
+    <None Remove="Pages\Transactions\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\" />
     <Folder Include="Model\" />
+    <Folder Include="Model\Transaction\" />
+    <Folder Include="Pages\Transactions\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.22">

@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AmazonReturnsInventoryLibrary.Transactions
 {
-    public class TransactionServices
+    public class TransactionService
     {
-        private TransactionDbContext dbContext;
+        private readonly TransactionDbContext dbContext;
 
-        public TransactionServices(TransactionDbContext dbContext)
+        public TransactionService(TransactionDbContext dbContext)
         {
             this.dbContext = dbContext;
         }
@@ -18,7 +18,7 @@ namespace AmazonReturnsInventoryLibrary.Transactions
         //Retrieve
         public async Task<List<Transaction>> GetTransactionsAsync()
         {
-            return await dbContext.Transaction.ToListAsync();
+            return await dbContext.Transactions.ToListAsync();
         }
 
 
@@ -27,7 +27,7 @@ namespace AmazonReturnsInventoryLibrary.Transactions
         {
             try
             {
-                dbContext.Transaction.Add(transaction);
+                dbContext.Transactions.Add(transaction);
                 await dbContext.SaveChangesAsync();
             }
             catch (Exception)
@@ -43,7 +43,7 @@ namespace AmazonReturnsInventoryLibrary.Transactions
         {
             try
             {
-                var transactionExist = dbContext.Transaction.FirstOrDefault(p => p.TransactionID == transaction.TransactionID);
+                var transactionExist = dbContext.Transactions.FirstOrDefault(p => p.TransactionID == transaction.TransactionID);
                 if (transactionExist != null)
                 {
                     dbContext.Update(transaction);
@@ -62,8 +62,12 @@ namespace AmazonReturnsInventoryLibrary.Transactions
         {
             try
             {
-                dbContext.Transaction.Remove(transaction);
-                await dbContext.SaveChangesAsync();
+                var transactionExist = dbContext.Transactions.FirstOrDefault(p => p.TransactionID == transaction.TransactionID);
+                if (transactionExist != null)
+                {
+                    dbContext.Transactions.Remove(transaction);
+                    await dbContext.SaveChangesAsync();
+                }
             }
             catch (Exception)
             {

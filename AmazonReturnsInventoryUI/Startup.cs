@@ -34,7 +34,7 @@ namespace AmazonReturnsInventoryUI
             {
                 options.UseSqlite("Data Source=Transactions.db");
             });
-            services.AddScoped<TransactionServices>();
+            services.AddScoped<TransactionService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

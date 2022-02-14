@@ -2,14 +2,16 @@
 using AmazonReturnsInventoryLibrary.Transactions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AmazonReturnsInventoryUI.Migrations
 {
     [DbContext(typeof(TransactionDbContext))]
-    partial class TransactionDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220214044653_transactionsAddQuantity2")]
+    partial class transactionsAddQuantity2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

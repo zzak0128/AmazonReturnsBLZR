@@ -2,14 +2,16 @@
 using AmazonReturnsInventoryLibrary.Transactions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AmazonReturnsInventoryUI.Migrations
 {
     [DbContext(typeof(TransactionDbContext))]
-    partial class TransactionDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220214034008_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -27,9 +29,6 @@ namespace AmazonReturnsInventoryUI.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Quantity")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -44,7 +43,6 @@ namespace AmazonReturnsInventoryUI.Migrations
                             TransactionID = 1,
                             Amount = 20.550000000000001,
                             Description = "MyFirst Transaction",
-                            Quantity = 1,
                             Type = "Income"
                         });
                 });
