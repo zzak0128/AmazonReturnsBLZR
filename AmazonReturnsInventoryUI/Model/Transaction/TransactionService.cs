@@ -8,9 +8,9 @@ namespace AmazonReturnsInventoryLibrary.Transactions
 {
     public class TransactionService
     {
-        private readonly TransactionDbContext dbContext;
+        private readonly ApplicationDbContext dbContext;
 
-        public TransactionService(TransactionDbContext dbContext)
+        public TransactionService(ApplicationDbContext dbContext)
         {
             this.dbContext = dbContext;
         }

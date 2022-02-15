@@ -17,12 +17,20 @@
     <None Remove="Model\" />
     <None Remove="Model\Transaction\" />
     <None Remove="Pages\Transactions\" />
+    <None Remove="Pages\Orders\" />
+    <None Remove="Pages\Items\" />
+    <None Remove="Model\Orders\" />
+    <None Remove="Model\Items\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\" />
     <Folder Include="Model\" />
     <Folder Include="Model\Transaction\" />
     <Folder Include="Pages\Transactions\" />
+    <Folder Include="Pages\Orders\" />
+    <Folder Include="Pages\Items\" />
+    <Folder Include="Model\Orders\" />
+    <Folder Include="Model\Items\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.22">

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AmazonReturnsInventoryLibrary.Transactions;
+using AmazonReturnsInventoryUI.Model.Orders;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
@@ -30,11 +31,12 @@ namespace AmazonReturnsInventoryUI
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddDbContext<TransactionDbContext>(options =>
+            services.AddDbContext<ApplicationDbContext>(options =>
             {
-                options.UseSqlite("Data Source=Transactions.db");
+                options.UseSqlite("Data Source=AmazonReturns.db");
             });
             services.AddScoped<TransactionService>();
+            services.AddScoped<OrderService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

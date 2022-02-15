@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AmazonReturnsInventoryUI.Migrations
 {
-    [DbContext(typeof(TransactionDbContext))]
+    [DbContext(typeof(ApplicationDbContext))]
     [Migration("20220214044653_transactionsAddQuantity2")]
     partial class transactionsAddQuantity2
     {
