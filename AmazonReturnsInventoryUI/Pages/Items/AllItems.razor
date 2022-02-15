@@ -1,0 +1,81 @@
+﻿@page "/allitems"
+@inject ItemService service
+@inject NavigationManager navManager
+
+<h3>Inventory</h3>
+
+<div class="container">
+    <div class="mb-3">
+        <button class="btn btn-primary" @onclick="NavigateToCreate">Add Item</button>
+    </div>
+</div>
+
+<div class="container">
+    <table class="table table-hover table-striped">
+        <thead>
+            <tr>
+                <th>Transaction ID</th>
+                <th>Description</th>
+                <th>Type</th>
+                <th>Quantity</th>
+                <th>Amount</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @if (Items.Any())
+            {
+                @foreach (var item in Items)
+                {
+            <tr>
+                <td>@item.ItemID</td>
+                <td>@item.SKU</td>
+                <td>@item.Title</td>
+                <td>@item.Description</td>
+                <td>@item.Category</td>
+                <td>@item.Condition</td>
+                <td>@item.Quantity</td>
+                <td>$@item.Price</td>
+                <td><button class="btn btn-secondary mb-3" @onclick="(() => ViewDetails(item.ItemID))">Details</button><button class="btn btn-danger mb-3" @onclick="(() => DeleteItem(item))">Delete</button></td>
+            </tr>
+                }
+            }
+            else
+            {
+                <tr><td colspan="6"><strong>No Transactions</strong></td></tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+@code {
+
+    List<Item> Items = new List<Item>();
+    protected override async Task OnInitializedAsync()
+    {
+        await RefreshItems();
+    }
+
+    private async Task RefreshItems()
+    {
+        Items = await service.GetItemsAsync();
+    }
+
+    private void NavigateToCreate()
+    {
+        navManager.NavigateTo("/allitems/new/0");
+    }
+
+    private void ViewDetails(int id)
+    {
+        navManager.NavigateTo($"/allitems/detail/{id}");
+    }
+
+    private async Task DeleteItem(Item item)
+    {
+        await service.DeleteItemAsync(item);
+        await RefreshItems();
+    }
+}

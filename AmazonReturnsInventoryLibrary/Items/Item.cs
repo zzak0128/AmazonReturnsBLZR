@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using AmazonReturnsInventoryLibrary.Orders;
 
-namespace AmazonReturnsInventoryLibrary
+namespace AmazonReturnsInventoryLibrary.Items
 {
     public class Item
     {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using AmazonReturnsInventoryLibrary.Items;
 
 namespace AmazonReturnsInventoryLibrary.Orders
 {

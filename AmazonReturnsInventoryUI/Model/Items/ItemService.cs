@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AmazonReturnsInventoryLibrary;
+using AmazonReturnsInventoryLibrary.Items;
 using AmazonReturnsInventoryLibrary.Transactions;
 using Microsoft.EntityFrameworkCore;
 

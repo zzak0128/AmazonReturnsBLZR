@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace AmazonReturnsInventoryLibrary
+namespace AmazonReturnsInventoryLibrary.Items
 {
     public enum Category
     {

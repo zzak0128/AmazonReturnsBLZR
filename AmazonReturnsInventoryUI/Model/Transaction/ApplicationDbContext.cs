@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using AmazonReturnsInventoryLibrary.Items;
 using AmazonReturnsInventoryLibrary.Orders;
 using Microsoft.EntityFrameworkCore;
 

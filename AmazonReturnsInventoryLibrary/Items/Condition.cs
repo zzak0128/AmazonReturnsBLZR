@@ -1,4 +1,4 @@
-﻿namespace AmazonReturnsInventoryLibrary
+﻿namespace AmazonReturnsInventoryLibrary.Items
 {
     public enum Condition
     {
