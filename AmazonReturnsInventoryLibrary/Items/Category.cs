@@ -1,8 +1,13 @@
-﻿namespace AmazonReturnsInventoryLibrary
+﻿using System.Collections.Generic;
+
+namespace AmazonReturnsInventoryLibrary
 {
-    public class Category
+    public enum Category
     {
-        public int CategoryID { get; set; }
-        public string Title { get; set; }
+        Pet,
+        Home,
+        Bathroom,
+        Kitchen,
+        Auto
     }
 }

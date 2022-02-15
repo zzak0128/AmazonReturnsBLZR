@@ -21,6 +21,7 @@
     <None Remove="Pages\Items\" />
     <None Remove="Model\Orders\" />
     <None Remove="Model\Items\" />
+    <None Remove="Migrations\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\" />
@@ -31,6 +32,7 @@
     <Folder Include="Pages\Items\" />
     <Folder Include="Model\Orders\" />
     <Folder Include="Model\Items\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.22">

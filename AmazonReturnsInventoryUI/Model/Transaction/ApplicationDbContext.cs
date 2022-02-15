@@ -13,6 +13,7 @@ namespace AmazonReturnsInventoryLibrary.Transactions
 
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<Item> Items { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -23,8 +24,13 @@ namespace AmazonReturnsInventoryLibrary.Transactions
             modelBuilder.Entity<Order>().Property(o => o.Carrier).HasConversion<string>();
             modelBuilder.Entity<Order>().Property(o => o.Status).HasConversion<string>();
 
+            modelBuilder.Entity<Item>().ToTable("Items");
+            modelBuilder.Entity<Item>().Property(i => i.Category).HasConversion<string>();
+            modelBuilder.Entity<Item>().Property(i => i.Condition).HasConversion<string>();
+
             modelBuilder.Entity<Transaction>().HasData(GetTransactions());
             modelBuilder.Entity<Order>().HasData(GetOrders());
+            modelBuilder.Entity<Item>().HasData(GetItems());
             base.OnModelCreating(modelBuilder);
         }
 
@@ -41,6 +47,14 @@ namespace AmazonReturnsInventoryLibrary.Transactions
             return new List<Order>
             {
                 new Order { OrderID = 1, Items = new List<Item>(), CustomerName = "George Constanza", Street1 = "504th Street", Street2 = "PO Box 1234", City = "New York", State = "New York", ZipCode = "55660", Carrier=ShippingCarrier.FedEx, Status=OrderStatus.Shipped }
+            };
+        }
+
+        private List<Item> GetItems()
+        {
+            return new List<Item>
+            {
+                new Item { ItemID = 1, SKU="4492749273", Title = "Dog Bed", Description = "FurBuddy 26'' Dog Bed", Category = Category.Pet, Condition = Condition.Used, Quantity = 1, Price = 25.99 }
             };
         }
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AmazonReturnsInventoryLibrary.Transactions;
+using AmazonReturnsInventoryUI.Model.Items;
 using AmazonReturnsInventoryUI.Model.Orders;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
@@ -12,7 +13,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-//using AmazonReturnsInventoryUI.Data;
 
 namespace AmazonReturnsInventoryUI
 {
@@ -37,6 +37,7 @@ namespace AmazonReturnsInventoryUI
             });
             services.AddScoped<TransactionService>();
             services.AddScoped<OrderService>();
+            services.AddScoped<ItemService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

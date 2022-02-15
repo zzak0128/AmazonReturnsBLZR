@@ -1,7 +1,81 @@
 ﻿@page "/allorders"
+@inject OrderService service
+@inject NavigationManager navManager
 
-<h3>Current Orders</h3>
+<h3>Transactions</h3>
+
+<div class="container">
+    <div class="mb-3">
+        <button class="btn btn-primary" @onclick="NavigateToCreate">New Transaction</button>
+    </div>
+</div>
+
+<div class="container">
+    <table class="table table-hover table-striped">
+        <thead>
+            <tr>
+                <th>Transaction ID</th>
+                <th>Description</th>
+                <th>Type</th>
+                <th>Quantity</th>
+                <th>Amount</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @if (Orders.Any())
+            {
+                @foreach (var order in Orders)
+                {
+            <tr>
+                <td>@order.OrderID</td>
+                <td>
+                    @foreach (var item in order.Items)
+                    {
+                        @item.Title,
+                                                                                                                            }
+                </td>
+                <td>@order.CustomerName</td>
+                <td>@order.Status</td>
+                <td><button class="btn btn-secondary mb-3" @onclick="(() => ViewDetails(order.OrderID))">Details</button><button class="btn btn-danger mb-3" @onclick="(() => DeleteOrder(order))">Delete</button></td>
+            </tr>
+                }
+            }
+            else
+            {
+                <tr><td colspan="6"><strong>No Orders</strong></td></tr>
+            }
+        </tbody>
+    </table>
+</div>
+
 
 @code {
+    List<Order> Orders = new List<Order>();
+    protected override async Task OnInitializedAsync()
+    {
+        await RefreshOrders();
+    }
 
+    private async Task RefreshOrders()
+    {
+        Orders = await service.GetOrdersAsync();
+    }
+
+    private void NavigateToCreate()
+    {
+        navManager.NavigateTo("/allorders/new/0");
+    }
+
+    private void ViewDetails(int id)
+    {
+        navManager.NavigateTo($"/allorders/detail/{id}");
+    }
+
+    private async Task DeleteOrder(Order order)
+    {
+        await service.DeleteOrderAsync(order);
+        await RefreshOrders();
+    }
 }

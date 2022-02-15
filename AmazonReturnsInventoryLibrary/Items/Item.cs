@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using AmazonReturnsInventoryLibrary.Orders;
+
 namespace AmazonReturnsInventoryLibrary
 {
     public class Item
@@ -11,9 +15,5 @@ namespace AmazonReturnsInventoryLibrary
         public string SKU { get; set; }
         public int Quantity { get; set; }
         public double Price { get; set; }
-
-        public Item()
-        {
-        }
     }
 }

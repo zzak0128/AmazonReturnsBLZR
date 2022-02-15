@@ -2,23 +2,10 @@
 
 namespace AmazonReturnsInventoryUI.Migrations
 {
-    public partial class AddOrders : Migration
+    public partial class AddItems : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Category",
-                columns: table => new
-                {
-                    CategoryID = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Title = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Category", x => x.CategoryID);
-                });
-
             migrationBuilder.CreateTable(
                 name: "Orders",
                 columns: table => new
@@ -40,15 +27,31 @@ namespace AmazonReturnsInventoryUI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Item",
+                name: "Transactions",
+                columns: table => new
+                {
+                    TransactionID = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Description = table.Column<string>(nullable: true),
+                    Type = table.Column<string>(nullable: false),
+                    Quantity = table.Column<int>(nullable: false),
+                    Amount = table.Column<double>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Transactions", x => x.TransactionID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Items",
                 columns: table => new
                 {
                     ItemID = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Title = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
-                    CategoryID = table.Column<int>(nullable: true),
-                    Condition = table.Column<int>(nullable: false),
+                    Category = table.Column<string>(nullable: false),
+                    Condition = table.Column<string>(nullable: false),
                     SKU = table.Column<string>(nullable: true),
                     Quantity = table.Column<int>(nullable: false),
                     Price = table.Column<double>(nullable: false),
@@ -56,15 +59,9 @@ namespace AmazonReturnsInventoryUI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Item", x => x.ItemID);
+                    table.PrimaryKey("PK_Items", x => x.ItemID);
                     table.ForeignKey(
-                        name: "FK_Item_Category_CategoryID",
-                        column: x => x.CategoryID,
-                        principalTable: "Category",
-                        principalColumn: "CategoryID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Item_Orders_OrderID",
+                        name: "FK_Items_Orders_OrderID",
                         column: x => x.OrderID,
                         principalTable: "Orders",
                         principalColumn: "OrderID",
@@ -72,28 +69,33 @@ namespace AmazonReturnsInventoryUI.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Items",
+                columns: new[] { "ItemID", "Category", "Condition", "Description", "OrderID", "Price", "Quantity", "SKU", "Title" },
+                values: new object[] { 1, "Pet", "Used", "FurBuddy 26'' Dog Bed", null, 25.989999999999998, 1, "4492749273", "Dog Bed" });
+
+            migrationBuilder.InsertData(
                 table: "Orders",
                 columns: new[] { "OrderID", "Carrier", "City", "CustomerName", "State", "Status", "Street1", "Street2", "ZipCode" },
                 values: new object[] { 1, "FedEx", "New York", "George Constanza", "New York", "Shipped", "504th Street", "PO Box 1234", "55660" });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Item_CategoryID",
-                table: "Item",
-                column: "CategoryID");
+            migrationBuilder.InsertData(
+                table: "Transactions",
+                columns: new[] { "TransactionID", "Amount", "Description", "Quantity", "Type" },
+                values: new object[] { 1, 20.550000000000001, "MyFirst Transaction", 1, "Income" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Item_OrderID",
-                table: "Item",
+                name: "IX_Items_OrderID",
+                table: "Items",
                 column: "OrderID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Item");
+                name: "Items");
 
             migrationBuilder.DropTable(
-                name: "Category");
+                name: "Transactions");
 
             migrationBuilder.DropTable(
                 name: "Orders");

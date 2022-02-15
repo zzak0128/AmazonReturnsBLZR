@@ -3,34 +3,18 @@ using System;
 using AmazonReturnsInventoryLibrary.Transactions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AmazonReturnsInventoryUI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220215210402_AddOrders")]
-    partial class AddOrders
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.22");
-
-            modelBuilder.Entity("AmazonReturnsInventoryLibrary.Category", b =>
-                {
-                    b.Property<int>("CategoryID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("CategoryID");
-
-                    b.ToTable("Category");
-                });
 
             modelBuilder.Entity("AmazonReturnsInventoryLibrary.Item", b =>
                 {
@@ -38,11 +22,13 @@ namespace AmazonReturnsInventoryUI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("CategoryID")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
-                    b.Property<int>("Condition")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Condition")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
                         .HasColumnType("TEXT");
@@ -64,11 +50,22 @@ namespace AmazonReturnsInventoryUI.Migrations
 
                     b.HasKey("ItemID");
 
-                    b.HasIndex("CategoryID");
-
                     b.HasIndex("OrderID");
 
-                    b.ToTable("Item");
+                    b.ToTable("Items");
+
+                    b.HasData(
+                        new
+                        {
+                            ItemID = 1,
+                            Category = "Pet",
+                            Condition = "Used",
+                            Description = "FurBuddy 26'' Dog Bed",
+                            Price = 25.989999999999998,
+                            Quantity = 1,
+                            SKU = "4492749273",
+                            Title = "Dog Bed"
+                        });
                 });
 
             modelBuilder.Entity("AmazonReturnsInventoryLibrary.Orders.Order", b =>
@@ -158,10 +155,6 @@ namespace AmazonReturnsInventoryUI.Migrations
 
             modelBuilder.Entity("AmazonReturnsInventoryLibrary.Item", b =>
                 {
-                    b.HasOne("AmazonReturnsInventoryLibrary.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryID");
-
                     b.HasOne("AmazonReturnsInventoryLibrary.Orders.Order", null)
                         .WithMany("Items")
                         .HasForeignKey("OrderID");
