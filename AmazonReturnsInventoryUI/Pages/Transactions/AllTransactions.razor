@@ -1,11 +1,13 @@
-﻿@page "/all-transactions"
+﻿@page "/alltransactions"
 @inject TransactionService service
 @inject NavigationManager navManager
 
 <h3>Transactions</h3>
 
 <div class="container">
-    <button class="btn btn-primary" @onclick="NavigateToCreate">New Transaction</button>
+    <div class="mb-3">
+        <button class="btn btn-primary" @onclick="NavigateToCreate">New Transaction</button>
+    </div>
 </div>
 
 <div class="container">
@@ -30,14 +32,14 @@
             {
                 @foreach (var transaction in Transactions)
                 {
-                    <tr @onclick="(() => SetTransactionForUpdate(transaction))">
+                    <tr>
                         <td>@transaction.TransactionID</td>
                         <td>@transaction.Description</td>
                         <td>@transaction.Type</td>
                         <td>@transaction.Quantity</td>
                         <td>@transaction.Amount</td>
                         <td>@(transaction.Amount * transaction.Quantity)</td>
-                        <td><button class="btn btn-danger" @onclick="(() => DeleteTransaction(transaction))">Delete</button></td>
+                        <td><button class="btn btn-secondary mb-3" @onclick="(() => ViewDetails(transaction.TransactionID))">Details</button><button class="btn btn-danger mb-3" @onclick="(() => DeleteTransaction(transaction))">Delete</button></td>
                     </tr>
                 }
             }
@@ -52,7 +54,6 @@
 
 @code {
     double totalExpense = 0.00;
-
 
     List<Transaction> Transactions = new List<Transaction>();
     protected override async Task OnInitializedAsync()
@@ -87,20 +88,12 @@
 
     private void NavigateToCreate()
     {
-        navManager.NavigateTo("transaction-new");
+        navManager.NavigateTo("/alltransactions/new/0");
     }
 
-
-    Transaction UpdateTransaction = new Transaction();
-    private void SetTransactionForUpdate(Transaction transaction)
+    private void ViewDetails(int id)
     {
-        UpdateTransaction = transaction;
-    }
-
-    private async Task UpdateTransactionData()
-    {
-        await service.UpdateTransactionAsync(UpdateTransaction);
-        await RefreshTransactions();
+        navManager.NavigateTo($"/alltransactions/detail/{id}");
     }
 
     private async Task DeleteTransaction(Transaction transaction)

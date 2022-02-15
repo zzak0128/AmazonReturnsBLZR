@@ -1,5 +1,64 @@
-﻿<h3>Component1</h3>
+﻿@page "/alltransactions/detail/{id:int}"
+@inject TransactionService service
+@inject NavigationManager navManager
+
+<h3>Transaction Details</h3>
+<div class="container">
+    <form class="form">
+        <div class="mb-3">
+            <label class="form-label">Transaction Id</label>
+            <input class="form-control" readonly value="@DetailTransaction.TransactionID" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            <input class="form-control" readonly value="@DetailTransaction.Description"/>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Transaction Type</label>
+            <input class="form-control" readonly value="@DetailTransaction.Type" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Quantity</label>
+            <input class="form-control" readonly value="@DetailTransaction.Quantity" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Amount</label>
+            <input class="form-control" readonly value="@DetailTransaction.Amount" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Total</label>
+            <input class="form-control" readonly value="$@(DetailTransaction.Quantity * DetailTransaction.Amount)" />
+        </div>
+
+        <div class="mb-3">
+            <button class="btn" @onclick="NavigateBack">Back</button> | <button class="btn" @onclick="ToEdit">Edit</button>
+        </div>
+    </form>
+</div>
 
 @code {
+        [Parameter]
+        public int id { get; set; }
+    public Transaction DetailTransaction { get; set; }
 
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        DetailTransaction = service.GetTransactionById(id);
+    }
+
+    private void NavigateBack()
+    {
+        navManager.NavigateTo("/alltransactions/",true);
+    }
+
+    private void ToEdit()
+    {
+        navManager.NavigateTo($"/alltransactions/new/{id}", true);
+    }
 }

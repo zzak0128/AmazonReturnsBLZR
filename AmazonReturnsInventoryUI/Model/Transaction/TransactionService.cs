@@ -27,7 +27,17 @@ namespace AmazonReturnsInventoryLibrary.Transactions
         {
             try
             {
-                dbContext.Transactions.Add(transaction);
+
+                var transactionExist = dbContext.Transactions.FirstOrDefault(p => p.TransactionID == transaction.TransactionID);
+                if (transactionExist != null)
+                {
+                    dbContext.Update(transaction);
+                }
+                else
+                {
+                    dbContext.Transactions.Add(transaction);
+                }
+
                 await dbContext.SaveChangesAsync();
             }
             catch (Exception)
@@ -37,6 +47,11 @@ namespace AmazonReturnsInventoryLibrary.Transactions
             return transaction;
         }
 
+        public Transaction GetTransactionById(int id)
+        {
+            Transaction output = dbContext.Transactions.FirstOrDefault(t => t.TransactionID == id);
+            return output;
+        }
 
         //Update
         public async Task<Transaction> UpdateTransactionAsync(Transaction transaction)

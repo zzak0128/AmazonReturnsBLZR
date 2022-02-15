@@ -1,10 +1,21 @@
-﻿@page "/transaction-new"
+﻿@page "/alltransactions/new/{id:int}"
 @inject TransactionService service
 @inject NavigationManager navManager
 
-<div class="row m-5">
+<div class="row m-3">
     <EditForm Model="newTransaction">
-
+        <div class="mb-3">
+            @if (Id > 0)
+            {
+                <button class="btn btn-primary" @onclick="AddTransaction">Update</button>
+            }
+            else
+            {
+                <button class="btn btn-primary" @onclick="AddTransaction">Add</button>
+            }
+            <button class="btn btn-secondary" @onclick="ToAll">Cancel</button>
+        </div>
+        
 
         <label for="description">Description</label>
         <InputText id="description" class="form-control" @bind-Value="@newTransaction.Description" />
@@ -25,17 +36,35 @@
         <label for="amount">Amount</label>
         <InputNumber id="amount" class="form-control" @bind-Value="@newTransaction.Amount" />
 
-        <button class="btn btn-primary" @onclick="AddTransaction">Add Transaction</button>
+
     </EditForm>
+
+        
 </div>
 
 @code {
-    public Transaction newTransaction { get; set; } = new Transaction();
+
+    [Parameter]
+    public int? Id { get; set; }
+    private Transaction newTransaction { get; set; } = new Transaction();
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        if (Id > 0)
+        {
+            newTransaction = service.GetTransactionById(Id.Value);
+        }
+    }
 
     private async Task AddTransaction()
     {
         await service.AddTransactionAsync(newTransaction);
-        newTransaction = new Transaction();
-        navManager.NavigateTo("all-transactions");
+        navManager.NavigateTo("/alltransactions/");
+    }
+
+    private void ToAll()
+    {
+        navManager.NavigateTo("/alltransactions", true);
     }
 }
