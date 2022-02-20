@@ -1,0 +1,107 @@
+﻿@page "/allorders/detail/{id:int}"
+@inject OrderService service
+@inject NavigationManager navManager
+
+<h3>Order: @DetailOrder.OrderID</h3>
+<div class="container">
+    <form class="form">
+        <div class="mb-3">
+            <label class="form-label">Order Id</label>
+            <input class="form-control" readonly value="@DetailOrder.OrderID" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Status</label>
+            <input class="form-control" readonly value="@DetailOrder.Status" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Carrier</label>
+            <input class="form-control" readonly value="@DetailOrder.Carrier" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Customer</label>
+            <input class="form-control" readonly value="@DetailOrder.CustomerName" />
+        </div>
+
+
+
+        <div class="mb-3">
+            <label class="form-label">Address</label>
+            <input class="form-control" readonly value="@DetailOrder.Street1" />
+            @if(DetailOrder.Street2 != null)
+            {
+              <input class="form-control" readonly value="@DetailOrder.Street2" />
+            }
+            <input class="form-control" readonly value="@DetailOrder.City" />
+            <input class="form-control" readonly value="@DetailOrder.State" />
+            <input class="form-control" readonly value="@DetailOrder.ZipCode" />
+
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Items</label>\
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in DetailOrder.Items)
+                    {
+                        <tr>
+                            <td>@item.Title</td>
+                            <td>@item.Quantity</td>
+                            <td>@item.Price</td>
+                            <td>@(item.Price * item.Quantity)</td>
+                        </tr>
+                    }
+                    <tr>Order Total: @CalculateTotal()</tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="mb-3">
+            <button class="btn" @onclick="NavigateBack">Back</button> | <button class="btn" @onclick="ToEdit">Edit</button>
+        </div>
+    </form>
+</div>
+
+@code {
+    [Parameter]
+    public int id { get; set; }
+    public Order DetailOrder { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        DetailOrder = service.GetOrderById(id);
+    }
+
+    private double CalculateTotal()
+    {
+        double output = 0.00;
+        foreach (var item in DetailOrder.Items)
+        {
+            int quantity = item.Quantity;
+            double amount = item.Price;
+            double itemTotal = quantity * amount;
+            output += itemTotal;
+            
+        }
+        return output;
+    }
+
+    private void NavigateBack()
+    {
+        navManager.NavigateTo("/allOrders/", true);
+    }
+
+    private void ToEdit()
+    {
+        navManager.NavigateTo($"/allOrders/new/{id}", true);
+    }
+}

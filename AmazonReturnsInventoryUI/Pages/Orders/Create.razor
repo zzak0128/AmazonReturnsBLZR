@@ -1,0 +1,87 @@
+﻿@page "/allorders/new/{id:int}"
+@inject OrderService service
+@inject ItemService itemService
+@inject NavigationManager navManager
+
+<div class="row m-3">
+    <EditForm Model="NewOrder">
+        <div class="mb-3">
+
+            <button class="btn btn-primary" @onclick="AddOrder">Save</button>
+
+            <button class="btn btn-secondary" @onclick="ToAll">Cancel</button>
+        </div>
+
+
+        <label for="title">Customer Name</label>
+        <InputText id="title" class="form-control" @bind-Value="@NewOrder.CustomerName" />
+
+        <label for="street">Street</label>
+        <InputText id="street" class="form-control" @bind-Value="@NewOrder.Street1" />
+        <InputText id="street2" class="form-control" @bind-Value="@NewOrder.Street2" />
+
+        <label for="city">City</label>
+        <InputText id="city" class="form-control" @bind-Value="@NewOrder.City" />
+
+        <label for="state">State</label>
+        <InputText id="state" class="form-control" @bind-Value="@NewOrder.State" />
+
+        <label for="zip">Zip Code</label>
+        <InputText id="zip" class="form-control" @bind-Value="@NewOrder.ZipCode" />
+
+        <label for="carrier">Shipping Carrier</label>
+        <InputSelect id="carrier" class="form-control" @bind-Value="@NewOrder.Carrier">
+            @foreach (var option in Enum.GetValues(typeof(ShippingCarrier)))
+            {
+                <option>@option</option>
+            }
+        </InputSelect>
+
+        <label for="items">Select Items</label>
+        <MultiSelect NoSelected="itemList" Selected="SelectedItems" />
+    </EditForm>
+</div>
+
+@code {
+
+    [Parameter]
+    public int? Id { get; set; }
+    private Order NewOrder { get; set; } = new Order();
+    public List<Item> itemList = new List<Item>();
+    public List<Item> SelectedItems { get; set; } = new List<Item>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Id > 0)
+        {
+            NewOrder = service.GetOrderById(Id.Value);
+            SelectedItems = NewOrder.Items;
+            List<Item> items = await itemService.GetItemsAsync();
+            List<Item> eligibleItems = items.FindAll(i => i.Quantity > 0);
+            foreach (var item in eligibleItems)
+            {
+                if (!SelectedItems.Contains(item))
+                {
+                    itemList.Add(item);
+                }
+            }
+        }
+        else
+        {
+            List<Item> Items = await itemService.GetItemsAsync();
+            itemList = Items.FindAll(i => i.Quantity > 0);
+        }
+    }
+
+    private async Task AddOrder()
+    {
+        NewOrder.Items = SelectedItems;
+        await service.AddOrderAsync(NewOrder);
+        navManager.NavigateTo("/allorders/");
+    }
+
+    private void ToAll()
+    {
+        navManager.NavigateTo("/allorders", true);
+    }
+}

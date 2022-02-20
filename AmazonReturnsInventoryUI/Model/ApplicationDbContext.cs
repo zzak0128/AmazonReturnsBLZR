@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using AmazonReturnsInventoryLibrary.Items;
 using AmazonReturnsInventoryLibrary.Orders;
+using AmazonReturnsInventoryLibrary.Transactions;
+using AmazonReturnsInventoryUI.Model.SupplyItems;
 using Microsoft.EntityFrameworkCore;
 
-namespace AmazonReturnsInventoryLibrary.Transactions
+namespace AmazonReturnsInventoryUI.Model
 {
     public class ApplicationDbContext: DbContext
     {
@@ -15,6 +17,7 @@ namespace AmazonReturnsInventoryLibrary.Transactions
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Item> Items { get; set; }
+        public DbSet<SupplyItem> SupplyItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -28,6 +31,8 @@ namespace AmazonReturnsInventoryLibrary.Transactions
             modelBuilder.Entity<Item>().ToTable("Items");
             modelBuilder.Entity<Item>().Property(i => i.Category).HasConversion<string>();
             modelBuilder.Entity<Item>().Property(i => i.Condition).HasConversion<string>();
+
+            modelBuilder.Entity<SupplyItem>().ToTable("SupplyItems");
 
             modelBuilder.Entity<Transaction>().HasData(GetTransactions());
             modelBuilder.Entity<Order>().HasData(GetOrders());

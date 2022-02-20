@@ -22,6 +22,8 @@
     <None Remove="Model\Orders\" />
     <None Remove="Model\Items\" />
     <None Remove="Migrations\" />
+    <None Remove="Components\" />
+    <None Remove="Model\SupplyItems\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\" />
@@ -33,6 +35,8 @@
     <Folder Include="Model\Orders\" />
     <Folder Include="Model\Items\" />
     <Folder Include="Migrations\" />
+    <Folder Include="Components\" />
+    <Folder Include="Model\SupplyItems\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.22">

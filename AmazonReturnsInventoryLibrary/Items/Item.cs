@@ -15,5 +15,13 @@ namespace AmazonReturnsInventoryLibrary.Items
         public string SKU { get; set; }
         public int Quantity { get; set; }
         public double Price { get; set; }
+        public double SuggestedPrice { get; }
+
+        public Item()
+        {
+            SuggestedPrice = Price * 0.75;
+        }
     }
+
+    
 }

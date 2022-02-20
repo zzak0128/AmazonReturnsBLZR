@@ -1,0 +1,83 @@
+﻿@page "/allitems/new/{id:int}"
+@inject ItemService service
+@inject NavigationManager navManager
+
+<div class="row m-3">
+    <EditForm Model="NewItem">
+        <DataAnnotationsValidator/>
+        <div class="mb-3">
+            @if (Id > 0)
+            {
+                <button class="btn btn-primary" @onclick="AddItem">Update</button>
+            }
+            else
+            {
+                <button class="btn btn-primary" @onclick="AddItem">Add</button>
+            }
+            <button class="btn btn-secondary" @onclick="ToAll">Cancel</button>
+        </div>
+
+
+        <label for="title">Item</label>
+        <InputText id="title" class="form-control" @bind-Value="@NewItem.Title" />
+
+        <label for="description">Description</label>
+        <InputTextArea id="description" class="form-control" @bind-Value="@NewItem.Description" />
+
+        <label for="sku">SKU</label>
+        <InputText id="sku" class="form-control" @bind-Value="@NewItem.SKU" />
+
+        <label for="category">Category</label>
+        <InputSelect id="category" class="form-control" @bind-Value="@NewItem.Category">
+            @foreach (var option in Enum.GetValues(typeof(Category)))
+            {
+                <option>@option</option>
+            }
+        </InputSelect>
+
+        <label for="condition">Condition</label>
+        <InputSelect id="category" class="form-control" @bind-Value="@NewItem.Condition">
+            @foreach (var option in Enum.GetValues(typeof(Condition)))
+            {
+                <option>@option</option>
+            }
+        </InputSelect>
+
+        <label for="quantity">Quantity</label>
+        <InputNumber id="quantity" class="form-control" @bind-Value="@NewItem.Quantity" />
+
+        <label for="price">Amount</label>
+        <InputNumber id="price" class="form-control" @bind-Value="@NewItem.Price" />
+
+
+    </EditForm>
+
+
+</div>
+
+@code {
+
+    [Parameter]
+    public int? Id { get; set; }
+    private Item NewItem { get; set; } = new Item();
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        if (Id > 0)
+        {
+            NewItem = service.GetItemById(Id.Value);
+        }
+    }
+
+    private async Task AddItem()
+    {
+        await service.AddItemAsync(NewItem);
+        navManager.NavigateTo("/allitems/");
+    }
+
+    private void ToAll()
+    {
+        navManager.NavigateTo("/allitems", true);
+    }
+}

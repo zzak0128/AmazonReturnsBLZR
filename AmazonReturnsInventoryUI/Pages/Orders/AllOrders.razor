@@ -6,7 +6,7 @@
 
 <div class="container">
     <div class="mb-3">
-        <button class="btn btn-primary" @onclick="NavigateToCreate">New Transaction</button>
+        <button class="btn btn-primary" @onclick="NavigateToCreate">Create an Order</button>
     </div>
 </div>
 
@@ -27,19 +27,29 @@
             {
                 @foreach (var order in Orders)
                 {
-            <tr>
-                <td>@order.OrderID</td>
-                <td>
-                    @foreach (var item in order.Items)
-                    {
-                        @item.Title
-                    },
-                </td>
-                <td>@order.CustomerName</td>
-                <td>@order.Carrier</td>
-                <td>@order.Status</td>
-                <td><button class="btn btn-secondary mb-3" @onclick="(() => ViewDetails(order.OrderID))">Details</button><button class="btn btn-danger mb-3" @onclick="(() => DeleteOrder(order))">Delete</button></td>
-            </tr>
+                    <tr>
+                        <td>@order.OrderID</td>
+                        <td>
+                            @foreach (var item in order.Items)
+                            {
+                                @item.Title
+                                <br />
+                            }
+                        </td>
+                        <td>@order.CustomerName</td>
+                        <td>@order.Carrier</td>
+                        <td>
+                            <EditForm Model="order">
+                            <InputSelect id="status" class="form-control" @bind-Value="@order.Status">
+                                @foreach (var option in Enum.GetValues(typeof(OrderStatus)))
+                                        {
+                                            <option @onselectionchange="(() => updateStatus(order))">@option</option>
+                                        }
+                                </InputSelect>
+                                </EditForm>
+                        </td>
+                        <td><button class="btn btn-secondary mb-3" @onclick="(() => ViewDetails(order.OrderID))">Details</button><button class="btn btn-danger mb-3" @onclick="(() => DeleteOrder(order))">Delete</button></td>
+                    </tr>
                 }
             }
             else
@@ -61,6 +71,11 @@
     private async Task RefreshOrders()
     {
         Orders = await service.GetOrdersAsync();
+    }
+
+    private async Task updateStatus(Order order)
+    {
+        await service.AddOrderAsync(order);
     }
 
     private void NavigateToCreate()

@@ -1,0 +1,69 @@
+﻿@page "/allitems/detail/{id:int}"
+@inject ItemService service
+@inject NavigationManager navManager
+
+<h3>@DetailItem.Title</h3>
+<div class="container">
+    <form class="form">
+        <div class="mb-3">
+            <label class="form-label">Item Id</label>
+            <input class="form-control" readonly value="@DetailItem.ItemID" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            <input class="form-control" readonly value="@DetailItem.Description" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">SKU</label>
+            <input class="form-control" readonly value="@DetailItem.SKU" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Category</label>
+            <input class="form-control" readonly value="@DetailItem.Category" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Condition</label>
+            <input class="form-control" readonly value="@DetailItem.Condition" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Quantity</label>
+            <input class="form-control" readonly value="@DetailItem.Quantity" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Price</label>
+            <input class="form-control" readonly value="@DetailItem.Price" />
+        </div>
+
+        <div class="mb-3">
+            <button class="btn" @onclick="NavigateBack">Back</button> | <button class="btn" @onclick="ToEdit">Edit</button>
+        </div>
+    </form>
+</div>
+
+@code {
+    [Parameter]
+    public int id { get; set; }
+    public Item DetailItem { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        DetailItem = service.GetItemById(id);
+    }
+
+    private void NavigateBack()
+    {
+        navManager.NavigateTo("/allitems/", true);
+    }
+
+    private void ToEdit()
+    {
+        navManager.NavigateTo($"/allitems/new/{id}", true);
+    }
+}
