@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using AmazonReturnsInventoryLibrary.Items;
 using AmazonReturnsInventoryLibrary.Orders;
+using AmazonReturnsInventoryLibrary.SupplyItems;
 using AmazonReturnsInventoryLibrary.Transactions;
-using AmazonReturnsInventoryUI.Model.SupplyItems;
 using Microsoft.EntityFrameworkCore;
 
 namespace AmazonReturnsInventoryUI.Model

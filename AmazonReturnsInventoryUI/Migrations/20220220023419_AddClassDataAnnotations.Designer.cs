@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AmazonReturnsInventoryUI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220215221534_AddItems")]
-    partial class AddItems
+    [Migration("20220220023419_AddClassDataAnnotations")]
+    partial class AddClassDataAnnotations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -18,7 +18,7 @@ namespace AmazonReturnsInventoryUI.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.22");
 
-            modelBuilder.Entity("AmazonReturnsInventoryLibrary.Item", b =>
+            modelBuilder.Entity("AmazonReturnsInventoryLibrary.Items.Item", b =>
                 {
                     b.Property<int>("ItemID")
                         .ValueGeneratedOnAdd()
@@ -48,6 +48,7 @@ namespace AmazonReturnsInventoryUI.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("ItemID");
@@ -84,6 +85,7 @@ namespace AmazonReturnsInventoryUI.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CustomerName")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("State")
@@ -121,6 +123,33 @@ namespace AmazonReturnsInventoryUI.Migrations
                         });
                 });
 
+            modelBuilder.Entity("AmazonReturnsInventoryLibrary.SupplyItems.SupplyItem", b =>
+                {
+                    b.Property<int>("SupplyID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("REAL");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Unit")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("SupplyID");
+
+                    b.ToTable("SupplyItems");
+                });
+
             modelBuilder.Entity("AmazonReturnsInventoryLibrary.Transactions.Transaction", b =>
                 {
                     b.Property<int>("TransactionID")
@@ -131,6 +160,7 @@ namespace AmazonReturnsInventoryUI.Migrations
                         .HasColumnType("REAL");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Quantity")
@@ -155,7 +185,7 @@ namespace AmazonReturnsInventoryUI.Migrations
                         });
                 });
 
-            modelBuilder.Entity("AmazonReturnsInventoryLibrary.Item", b =>
+            modelBuilder.Entity("AmazonReturnsInventoryLibrary.Items.Item", b =>
                 {
                     b.HasOne("AmazonReturnsInventoryLibrary.Orders.Order", null)
                         .WithMany("Items")

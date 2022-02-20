@@ -1,0 +1,80 @@
+﻿@page "/allSupplyItems"
+@inject SupplyItemService service
+@inject NavigationManager navManager
+
+<h3>Inventory</h3>
+
+<div class="container">
+    <div class="mb-3">
+        <button class="btn btn-primary" @onclick="NavigateToCreate">Add Supply Item</button>
+    </div>
+</div>
+
+<div class="container">
+    <table class="table table-hover table-striped">
+        <thead>
+            <tr>
+                <th>Supply Item ID</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Category</th>
+                <th>Condition</th>
+                <th>Quantity</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @if (SupplyItems.Any())
+            {
+                @foreach (var SupplyItem in SupplyItems)
+                {
+                    <tr>
+                        <td>@SupplyItem.SupplyID</td>
+                        <td>@SupplyItem.Title</td>
+                        <td>@SupplyItem.Description</td>
+                        <td>@SupplyItem.Quantity</td>
+                        <td>@SupplyItem.Unit</td>
+                        <td>@SupplyItem.Price</td>
+                        <td><button class="btn btn-secondary mb-3" @onclick="(() => ViewDetails(SupplyItem.SupplyID))">Details</button><button class="btn btn-danger mb-3" @onclick="(() => DeleteSupplyItem(SupplyItem))">Delete</button></td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr><td colspan="6"><strong>No Transactions</strong></td></tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+@code {
+
+    List<SupplyItem> SupplyItems = new List<SupplyItem>();
+    protected override async Task OnInitializedAsync()
+    {
+        await RefreshSupplyItems();
+    }
+
+    private async Task RefreshSupplyItems()
+    {
+        SupplyItems = await service.GetSupplyItemsAsync();
+    }
+
+    private void NavigateToCreate()
+    {
+        navManager.NavigateTo("/allSupplyItems/new/0");
+    }
+
+    private void ViewDetails(int id)
+    {
+        navManager.NavigateTo($"/allSupplyItems/detail/{id}");
+    }
+
+    private async Task DeleteSupplyItem(SupplyItem SupplyItem)
+    {
+        await service.DeleteSupplyItemAsync(SupplyItem);
+        await RefreshSupplyItems();
+    }
+}

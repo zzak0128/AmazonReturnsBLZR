@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace AmazonReturnsInventoryUI.Model.SupplyItems
+namespace AmazonReturnsInventoryLibrary.SupplyItems
 {
     public class SupplyItem
     {
@@ -11,6 +11,7 @@ namespace AmazonReturnsInventoryUI.Model.SupplyItems
         public string Title { get; set; }
         public string Description { get; set; }
         public int Quantity { get; set; }
+        public string Unit { get; set; }
         public double Price { get; set; }
 
         public SupplyItem()

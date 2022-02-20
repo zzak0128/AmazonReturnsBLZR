@@ -2,7 +2,7 @@
 
 namespace AmazonReturnsInventoryUI.Migrations
 {
-    public partial class AddItems : Migration
+    public partial class AddClassDataAnnotations : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,7 +12,7 @@ namespace AmazonReturnsInventoryUI.Migrations
                 {
                     OrderID = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    CustomerName = table.Column<string>(nullable: true),
+                    CustomerName = table.Column<string>(nullable: false),
                     Street1 = table.Column<string>(nullable: true),
                     Street2 = table.Column<string>(nullable: true),
                     City = table.Column<string>(nullable: true),
@@ -27,12 +27,29 @@ namespace AmazonReturnsInventoryUI.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "SupplyItems",
+                columns: table => new
+                {
+                    SupplyID = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Title = table.Column<string>(nullable: false),
+                    Description = table.Column<string>(nullable: true),
+                    Quantity = table.Column<int>(nullable: false),
+                    Unit = table.Column<string>(nullable: true),
+                    Price = table.Column<double>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SupplyItems", x => x.SupplyID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Transactions",
                 columns: table => new
                 {
                     TransactionID = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Description = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: false),
                     Type = table.Column<string>(nullable: false),
                     Quantity = table.Column<int>(nullable: false),
                     Amount = table.Column<double>(nullable: false)
@@ -48,7 +65,7 @@ namespace AmazonReturnsInventoryUI.Migrations
                 {
                     ItemID = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Title = table.Column<string>(nullable: true),
+                    Title = table.Column<string>(nullable: false),
                     Description = table.Column<string>(nullable: true),
                     Category = table.Column<string>(nullable: false),
                     Condition = table.Column<string>(nullable: false),
@@ -93,6 +110,9 @@ namespace AmazonReturnsInventoryUI.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Items");
+
+            migrationBuilder.DropTable(
+                name: "SupplyItems");
 
             migrationBuilder.DropTable(
                 name: "Transactions");

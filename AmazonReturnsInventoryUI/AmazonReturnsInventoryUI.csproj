@@ -10,7 +10,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Remove="Data\" />
     <None Remove="Microsoft.EntityFrameworkCore.Design" />
     <None Remove="Microsoft.EntityFrameworkCore.Sqlite" />
     <None Remove="Microsoft.EntityFrameworkCore.Tools" />
@@ -21,12 +20,11 @@
     <None Remove="Pages\Items\" />
     <None Remove="Model\Orders\" />
     <None Remove="Model\Items\" />
-    <None Remove="Migrations\" />
     <None Remove="Components\" />
     <None Remove="Model\SupplyItems\" />
+    <None Remove="Pages\SupplyItems\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Data\" />
     <Folder Include="Model\" />
     <Folder Include="Model\Transaction\" />
     <Folder Include="Pages\Transactions\" />
@@ -34,9 +32,9 @@
     <Folder Include="Pages\Items\" />
     <Folder Include="Model\Orders\" />
     <Folder Include="Model\Items\" />
-    <Folder Include="Migrations\" />
     <Folder Include="Components\" />
     <Folder Include="Model\SupplyItems\" />
+    <Folder Include="Pages\SupplyItems\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.22">

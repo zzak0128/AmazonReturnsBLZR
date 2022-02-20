@@ -1,0 +1,67 @@
+﻿@page "/allSupplyItems/new/{id:int}"
+@inject SupplyItemService service
+@inject NavigationManager navManager
+
+<div class="row m-3">
+    <EditForm Model="NewSupplyItem">
+        <DataAnnotationsValidator />
+        <div class="mb-3">
+            @if (Id > 0)
+            {
+                <button class="btn btn-primary" @onclick="AddSupplyItem">Update</button>
+            }
+            else
+            {
+                <button class="btn btn-primary" @onclick="AddSupplyItem">Add</button>
+            }
+            <button class="btn btn-secondary" @onclick="ToAll">Cancel</button>
+        </div>
+
+
+        <label for="title">Item</label>
+        <InputText id="title" class="form-control" @bind-Value="@NewSupplyItem.Title" />
+
+        <label for="description">Description</label>
+        <InputTextArea id="description" class="form-control" @bind-Value="@NewSupplyItem.Description" />
+
+        <label for="quantity">Quantity</label>
+        <InputNumber id="quantity" class="form-control" @bind-Value="@NewSupplyItem.Quantity" />
+
+        <label for="unit">Unit</label>
+        <InputText id="quantity" class="form-control" @bind-Value="@NewSupplyItem.Unit" />
+
+        <label for="price">Price</label>
+        <InputNumber id="price" class="form-control" @bind-Value="@NewSupplyItem.Price" />
+
+
+    </EditForm>
+
+
+</div>
+
+@code {
+
+    [Parameter]
+    public int? Id { get; set; }
+    private SupplyItem NewSupplyItem { get; set; } = new SupplyItem();
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        if (Id > 0)
+        {
+            NewSupplyItem = service.GetSupplyItemById(Id.Value);
+        }
+    }
+
+    private async Task AddSupplyItem()
+    {
+        await service.AddSupplyItemAsync(NewSupplyItem);
+        navManager.NavigateTo("/allSupplyItems/");
+    }
+
+    private void ToAll()
+    {
+        navManager.NavigateTo("/allSupplyItems", true);
+    }
+}

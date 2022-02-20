@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AmazonReturnsInventoryLibrary.SupplyItems;
 using Microsoft.EntityFrameworkCore;
 
 namespace AmazonReturnsInventoryUI.Model.SupplyItems
