@@ -20,7 +20,7 @@
         Items = await iService.GetItemsAsync();
         foreach (var item in Items)
         {
-            totalItems += item.Quantity;
+            totalItems += 1;
         }
     }
 
@@ -31,7 +31,7 @@
         {
             if(item.Category == category)
             {
-                output += item.Quantity;
+                output += 1;
             }
         }
         return output;

@@ -16,8 +16,8 @@ namespace AmazonReturnsInventoryLibrary.Items
         public Category Category { get; set; }
         public Condition Condition { get; set; }
         public string SKU { get; set; }
-        public int Quantity { get; set; }
         [Required]
         public double Price { get; set; }
+        public double SoldPrice { get; set; } = 0.00;
     }
 }

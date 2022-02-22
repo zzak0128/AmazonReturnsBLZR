@@ -19,9 +19,9 @@
                 <th>Description</th>
                 <th>Category</th>
                 <th>Condition</th>
-                <th>Quantity</th>
                 <th>Price</th>
                 <th>Markdown Price</th>
+                <th>Sold</th>
             </tr>
         </thead>
         <tbody>
@@ -36,9 +36,16 @@
                 <td>@item.Description</td>
                 <td>@item.Category</td>
                 <td>@item.Condition</td>
-                <td>@item.Quantity</td>
                 <td>@Format.AsCurrency(item.Price)</td>
                 <td>@Calc.MultiplyDoublesAsCurrency(item.Price, 0.75)</td>
+                @if (item.SoldPrice > 0)
+                {
+                    <td><input class="form-check-Input" type="checkbox" checked readonly/></td>
+                }
+                else
+                {
+                    <td><input class="form-check-Input" type="checkbox" readonly /></td>
+                }
                 <td><button class="btn btn-secondary mb-3" @onclick="(() => ViewDetails(item.ItemID))">Details</button><button class="btn btn-danger mb-3" @onclick="(() => DeleteItem(item))">Delete</button></td>
             </tr>
                 }

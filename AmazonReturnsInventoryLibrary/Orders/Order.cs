@@ -9,7 +9,6 @@ namespace AmazonReturnsInventoryLibrary.Orders
     {
         [Key]
         public int OrderID { get; set; }
-        [Required]
         public List<Item> Items { get; set; } //Foreign Key - Items in the order
         [Required]
         public string CustomerName { get; set; }

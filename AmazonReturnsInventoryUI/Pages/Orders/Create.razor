@@ -4,13 +4,14 @@
 @inject NavigationManager navManager
 
 <div class="row m-3">
-    <EditForm Model="NewOrder">
+    <EditForm Model="NewOrder" OnValidSubmit="AddOrder">
         <DataAnnotationsValidator/>
+        <ValidationSummary/>
         <div class="mb-3">
 
-            <button class="btn btn-primary" @onclick="AddOrder">Save</button>
+            <button class="btn btn-primary" type="submit">Save</button>
 
-            <button class="btn btn-secondary" @onclick="ToAll">Cancel</button>
+            <button class="btn btn-secondary" type="button" @onclick="ToAll">Cancel</button>
         </div>
 
 
@@ -59,7 +60,7 @@
             SelectedItems = NewOrder.Items;
             // AllItems
             List<Item> items = await itemService.GetItemsAsync();
-            itemList = items.FindAll(i => i.Quantity > 0);
+            itemList = items.FindAll(i => i.SoldPrice == 0.00);
             //SelectedItems
         foreach (var item in itemList)
         {
@@ -73,7 +74,7 @@
     else
     {
         List<Item> items = await itemService.GetItemsAsync();
-        itemList = items.FindAll(i => i.Quantity > 0);
+        itemList = items.FindAll(i => i.SoldPrice == 0.00);
     }
 }
 

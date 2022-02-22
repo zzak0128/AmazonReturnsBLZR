@@ -1,4 +1,5 @@
 ﻿@page "/allorders/detail/{id:int}"
+@inject ItemService iService
 @inject OrderService service
 @inject NavigationManager navManager
 
@@ -42,11 +43,15 @@
             <label class="form-label">Items</label>
             <table class="table table-striped">
                 <thead>
+                    @*<tr>
+                        <th>
+                            <button class="btn btn-primary" @onclick="UpdateItemsPrice">Update Sold Prices</button>
+                        </th>
+                    </tr>*@
                     <tr>
                         <th>Item</th>
-                        <th>Quantity</th>
-                        <th>Price</th>
-                        <th>Total</th>
+                        <th>Original Price</th>
+                        <th>Sold Price</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -54,9 +59,8 @@
                     {
                         <tr>
                             <td>@item.Title</td>
-                            <td>@item.Quantity</td>
                             <td>@Format.AsCurrency(item.Price)</td>
-                            <td>$@Calc.MultiplyDoublesAsCurrency(item.Price, 1)</td>
+                            <td>@Format.AsCurrency(item.SoldPrice)</td>
                         </tr>
                     }
                         <tr>
@@ -79,13 +83,21 @@
 
     protected override void OnInitialized()
     {
-        base.OnInitialized();
         DetailOrder = service.GetOrderById(id);
+    }
+
+    private async Task UpdateItemsPrice()
+    {
+        foreach (var item in DetailOrder.Items)
+        {
+            await iService.AddItemAsync(item);
+        }
     }
 
     private void NavigateBack()
     {
         navManager.NavigateTo("/allOrders/");
+
     }
 
     private void ToEdit()

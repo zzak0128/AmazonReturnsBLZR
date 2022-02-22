@@ -39,20 +39,21 @@ namespace AmazonReturnsInventoryUI.Model.Orders
                 else
                 {
                     dbContext.Orders.Add(Order);
-                    foreach (var item in Order.Items)
-                    {
-                        item.Quantity -= 1;
-                    }
+         
                 }
 
                 double orderTotal = 0.00;
                 foreach (var item in Order.Items)
                 {
-                    orderTotal += item.Price;
+                    orderTotal += item.SoldPrice;
                 }
                 Order.OrderTotal = orderTotal;
 
-                await dbContext.SaveChangesAsync();
+                if (Order.Items.Count > 0)
+                {
+                    await dbContext.SaveChangesAsync();
+                }
+                
             }
             catch (Exception)
             {
@@ -76,10 +77,6 @@ namespace AmazonReturnsInventoryUI.Model.Orders
                 if (OrderExist != null)
                 {
                     dbContext.Orders.Remove(Order);
-                    foreach (var item in Order.Items)
-                    {
-                        item.Quantity += 1;
-                    }
 
                     await dbContext.SaveChangesAsync();
                 }
