@@ -11,14 +11,14 @@
 </div>*@
 
 <div class="container">
-    <EditForm Model="NewTransaction">
+    <EditForm Model="NewTransaction" OnValidSubmit="AddTransaction">
         <DataAnnotationsValidator />
         <ValidationSummary />
         <label for="description">Description</label>
-        <InputText id="description"></InputText>
+        <InputText id="description" @bind-Value="NewTransaction.Description"></InputText>
 
         <label for="type">Type</label>
-        <InputSelect @bind-Value="NewTransaction.Type">
+        <InputSelect id="type" @bind-Value="NewTransaction.Type">
             @foreach (var type in Enum.GetValues(typeof(TransactionType)))
             {
                 <option>@type</option>
@@ -26,7 +26,7 @@
         </InputSelect>
 
         <label for="Cost">Cost</label>
-        <InputNumber @bind-Value="NewTransaction.Amount"/>
+        <InputNumber id="cost" @bind-Value="NewTransaction.Amount"/>
 
         <button class="btn btn-primary" type="submit">Add Transaction</button>
         <button class="btn btn-secondary" type="reset">Clear</button>
