@@ -56,32 +56,35 @@
         {
             NewOrder = service.GetOrderById(Id.Value);
             SelectedItems = NewOrder.Items;
+            // AllItems
             List<Item> items = await itemService.GetItemsAsync();
-            List<Item> eligibleItems = items.FindAll(i => i.Quantity > 0);
-            foreach (var item in eligibleItems)
+            itemList = items.FindAll(i => i.Quantity > 0);
+            //SelectedItems
+        foreach (var item in itemList)
+        {
+            if (NewOrder.Items.Contains(item))
             {
-                if (!SelectedItems.Contains(item))
-                {
-                    itemList.Add(item);
-                }
+                SelectedItems.Add(item);
+                itemList.Remove(item);
             }
         }
-        else
-        {
-            List<Item> Items = await itemService.GetItemsAsync();
-            itemList = Items.FindAll(i => i.Quantity > 0);
-        }
     }
-
-    private async Task AddOrder()
+    else
     {
-        NewOrder.Items = SelectedItems;
-        await service.AddOrderAsync(NewOrder);
-        navManager.NavigateTo("/allorders/");
+        List<Item> items = await itemService.GetItemsAsync();
+        itemList = items.FindAll(i => i.Quantity > 0);
     }
+}
 
-    private void ToAll()
-    {
-        navManager.NavigateTo("/allorders", true);
-    }
+private async Task AddOrder()
+{
+    NewOrder.Items = SelectedItems;
+    await service.AddOrderAsync(NewOrder);
+    navManager.NavigateTo("/allorders/");
+}
+
+private void ToAll()
+{
+    navManager.NavigateTo("/allorders", true);
+}
 }

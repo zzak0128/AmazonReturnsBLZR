@@ -1,4 +1,4 @@
-﻿@page "/allSupplyItems/new/{id:int}"
+﻿@page "/allsupplyitems/new/{id:int}"
 @inject SupplyItemService service
 @inject NavigationManager navManager
 
@@ -30,7 +30,7 @@
         <label for="unit">Unit</label>
         <InputText id="quantity" class="form-control" @bind-Value="@NewSupplyItem.Unit" />
 
-        <label for="price">Price</label>
+        <label for="price">Price per Unit</label>
         <InputNumber id="price" class="form-control" @bind-Value="@NewSupplyItem.Price" />
 
 

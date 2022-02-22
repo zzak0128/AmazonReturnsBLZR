@@ -1,5 +1,64 @@
-﻿<h3>Component1</h3>
+﻿@page "/allsupplyitems/detail/{id:int}"
+@inject SupplyItemService service
+@inject NavigationManager navManager
+
+<h3>@DetailSupplyItem.Title</h3>
+<div class="container">
+    <form class="form">
+        <div class="mb-3">
+            <label class="form-label">Supply Item Id</label>
+            <input class="form-control" readonly value="@DetailSupplyItem.SupplyID" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Item</label>
+            <input class="form-control" readonly value="@DetailSupplyItem.Title" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            <input class="form-control" readonly value="@DetailSupplyItem.Description" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Quantity</label>
+            <input class="form-control" readonly value="@DetailSupplyItem.Quantity" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Unit</label>
+            <input class="form-control" readonly value="@DetailSupplyItem.Unit" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Price per Unit</label>
+            <input class="form-control" readonly value="@Format.AsCurrency(DetailSupplyItem.Price)" />
+        </div>
+
+        <div class="mb-3">
+            <button class="btn" @onclick="NavigateBack">Back</button> | <button class="btn" @onclick="ToEdit">Edit</button>
+        </div>
+    </form>
+</div>
 
 @code {
+    [Parameter]
+    public int id { get; set; }
+    public SupplyItem DetailSupplyItem { get; set; }
 
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        DetailSupplyItem = service.GetSupplyItemById(id);
+    }
+
+    private void NavigateBack()
+    {
+        navManager.NavigateTo("/allsupplyitems/", true);
+    }
+
+    private void ToEdit()
+    {
+        navManager.NavigateTo($"/allsupplyitems/new/{id}", true);
+    }
 }

@@ -12,7 +12,7 @@
 
 <div class="container">
    
-        <p>Total: @totalExpense</p>
+        <strong>Total: @Format.AsCurrency(totalExpense)</strong>
         
     
     <table class="table table-hover table-striped">
@@ -22,7 +22,7 @@
                 <th>Description</th>
                 <th>Type</th>
                 <th>Quantity</th>
-                <th>Amount</th>
+                <th>Cost</th>
                 <th>Total</th>
             </tr>
         </thead>
@@ -37,8 +37,8 @@
                         <td>@transaction.Description</td>
                         <td>@transaction.Type</td>
                         <td>@transaction.Quantity</td>
-                        <td>@transaction.Amount</td>
-                        <td>@(transaction.Amount * transaction.Quantity)</td>
+                        <td>@Format.AsCurrency(transaction.Amount)</td>
+                        <td>@Calc.MultiplyDoublesAsCurrency(transaction.Amount, transaction.Quantity)</td>
                         <td><button class="btn btn-secondary mb-3" @onclick="(() => ViewDetails(transaction.TransactionID))">Details</button><button class="btn btn-danger mb-3" @onclick="(() => DeleteTransaction(transaction))">Delete</button></td>
                     </tr>
                 }

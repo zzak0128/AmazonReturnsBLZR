@@ -1,0 +1,53 @@
+﻿<h3>Total Profits</h3>
+
+<div class="container">
+    <table class="table table-brodered table-primary">
+        <tbody>
+            <tr>
+                <td>Expenses</td>
+                <td>@Format.AsCurrency(TotalExpense)</td>
+            </tr>
+            <tr>
+                <td>Income</td>
+                <td>@Format.AsCurrency(TotalIncome)</td>
+            </tr>
+            <tr>
+                <td>Total Profits</td>
+                <td>@Format.AsCurrency(Calc.AddCurrencies(TotalIncome,TotalExpense))</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+@code {
+    [Inject]
+    protected TransactionService tService { get; set; }
+
+    public List<Transaction> Transactions { get; set; }
+    public double TotalExpense { get; set; }
+    public double TotalIncome { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Transactions = await tService.GetTransactionsAsync();
+        GetTotalExpenses();
+    }
+
+    private void GetTotalExpenses()
+    {
+        TotalExpense = 0.00;
+        TotalIncome = 0.00;
+
+        foreach (var transaction in Transactions)
+        {
+            if(transaction.Type == TransactionType.Expense)
+            {
+                TotalExpense += Calc.multiplyDoubles(transaction.Quantity, transaction.Amount);
+            }
+            else if (transaction.Type == TransactionType.Income)
+            {
+                TotalIncome += Calc.multiplyDoubles(transaction.Quantity, transaction.Amount);
+            }
+        }
+    }
+}

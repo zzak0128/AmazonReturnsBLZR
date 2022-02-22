@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AmazonReturnsInventoryLibrary.Items;
 using AmazonReturnsInventoryLibrary.Orders;
 using AmazonReturnsInventoryLibrary.Transactions;
 using Microsoft.EntityFrameworkCore;
@@ -29,16 +30,27 @@ namespace AmazonReturnsInventoryUI.Model.Orders
         {
             try
             {
-
                 var OrderExist = dbContext.Orders.FirstOrDefault(p => p.OrderID == Order.OrderID);
                 if (OrderExist != null)
                 {
                     dbContext.Update(Order);
+                    
                 }
                 else
                 {
                     dbContext.Orders.Add(Order);
+                    foreach (var item in Order.Items)
+                    {
+                        item.Quantity -= 1;
+                    }
                 }
+
+                double orderTotal = 0.00;
+                foreach (var item in Order.Items)
+                {
+                    orderTotal += item.Price;
+                }
+                Order.OrderTotal = orderTotal;
 
                 await dbContext.SaveChangesAsync();
             }
@@ -55,25 +67,6 @@ namespace AmazonReturnsInventoryUI.Model.Orders
             return output;
         }
 
-        //Update
-        public async Task<Order> UpdateOrderAsync(Order Order)
-        {
-            try
-            {
-                var OrderExist = dbContext.Orders.FirstOrDefault(p => p.OrderID == Order.OrderID);
-                if (OrderExist != null)
-                {
-                    dbContext.Update(Order);
-                    await dbContext.SaveChangesAsync();
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            return Order;
-        }
-
         //Delete
         public async Task DeleteOrderAsync(Order Order)
         {
@@ -83,6 +76,11 @@ namespace AmazonReturnsInventoryUI.Model.Orders
                 if (OrderExist != null)
                 {
                     dbContext.Orders.Remove(Order);
+                    foreach (var item in Order.Items)
+                    {
+                        item.Quantity += 1;
+                    }
+
                     await dbContext.SaveChangesAsync();
                 }
             }

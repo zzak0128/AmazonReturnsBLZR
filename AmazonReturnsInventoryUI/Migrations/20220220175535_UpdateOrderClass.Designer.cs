@@ -3,14 +3,16 @@ using System;
 using AmazonReturnsInventoryUI.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AmazonReturnsInventoryUI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220220175535_UpdateOrderClass")]
+    partial class UpdateOrderClass
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,9 +47,6 @@ namespace AmazonReturnsInventoryUI.Migrations
                     b.Property<string>("SKU")
                         .HasColumnType("TEXT");
 
-                    b.Property<double>("SuggestedPrice")
-                        .HasColumnType("REAL");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -68,7 +67,6 @@ namespace AmazonReturnsInventoryUI.Migrations
                             Price = 25.989999999999998,
                             Quantity = 1,
                             SKU = "4492749273",
-                            SuggestedPrice = 0.0,
                             Title = "Dog Bed"
                         });
                 });

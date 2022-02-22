@@ -39,7 +39,7 @@
 
         </div>
         <div class="mb-3">
-            <label class="form-label">Items</label>\
+            <label class="form-label">Items</label>
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -55,11 +55,13 @@
                         <tr>
                             <td>@item.Title</td>
                             <td>@item.Quantity</td>
-                            <td>@item.Price</td>
-                            <td>@(item.Price * item.Quantity)</td>
+                            <td>@Format.AsCurrency(item.Price)</td>
+                            <td>$@Calc.MultiplyDoublesAsCurrency(item.Price, 1)</td>
                         </tr>
                     }
-                    <tr>Order Total: @CalculateTotal()</tr>
+                        <tr>
+                            <td>Order Total: @Format.AsCurrency(DetailOrder.OrderTotal)</td>
+                        </tr>
                 </tbody>
             </table>
         </div>
@@ -79,20 +81,6 @@
     {
         base.OnInitialized();
         DetailOrder = service.GetOrderById(id);
-    }
-
-    private double CalculateTotal()
-    {
-        double output = 0.00;
-        foreach (var item in DetailOrder.Items)
-        {
-            int quantity = item.Quantity;
-            double amount = item.Price;
-            double itemTotal = quantity * amount;
-            output += itemTotal;
-            
-        }
-        return output;
     }
 
     private void NavigateBack()

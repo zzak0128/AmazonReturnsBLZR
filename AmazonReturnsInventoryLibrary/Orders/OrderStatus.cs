@@ -4,6 +4,6 @@
     {
         InProcess,
         Shipped,
-        Deliverd
+        Delivered
     }
 }

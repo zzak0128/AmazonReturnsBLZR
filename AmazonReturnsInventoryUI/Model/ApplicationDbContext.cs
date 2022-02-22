@@ -34,7 +34,6 @@ namespace AmazonReturnsInventoryUI.Model
             modelBuilder.Entity<SupplyItem>().ToTable("SupplyItems");
 
             modelBuilder.Entity<Transaction>().HasData(GetTransactions());
-            modelBuilder.Entity<Order>().HasData(GetOrders());
             modelBuilder.Entity<Item>().HasData(GetItems());
             base.OnModelCreating(modelBuilder);
         }
@@ -44,14 +43,6 @@ namespace AmazonReturnsInventoryUI.Model
             return new List<Transaction>
             {
                 new Transaction { TransactionID = 1, Description = "MyFirst Transaction", Type = TransactionType.Income,Quantity = 1, Amount = 20.55}
-            };
-        }
-
-        private List<Order> GetOrders()
-        {
-            return new List<Order>
-            {
-                new Order { OrderID = 1, Items = new List<Item>(), CustomerName = "George Constanza", Street1 = "504th Street", Street2 = "PO Box 1234", City = "New York", State = "New York", ZipCode = "55660", Carrier=ShippingCarrier.FedEx, Status=OrderStatus.Shipped }
             };
         }
 

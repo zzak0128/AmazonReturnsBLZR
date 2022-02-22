@@ -21,6 +21,7 @@
                 <th>Condition</th>
                 <th>Quantity</th>
                 <th>Price</th>
+                <th>Markdown Price</th>
             </tr>
         </thead>
         <tbody>
@@ -36,7 +37,8 @@
                 <td>@item.Category</td>
                 <td>@item.Condition</td>
                 <td>@item.Quantity</td>
-                <td>$@item.Price</td>
+                <td>@Format.AsCurrency(item.Price)</td>
+                <td>@Calc.MultiplyDoublesAsCurrency(item.Price, 0.75)</td>
                 <td><button class="btn btn-secondary mb-3" @onclick="(() => ViewDetails(item.ItemID))">Details</button><button class="btn btn-danger mb-3" @onclick="(() => DeleteItem(item))">Delete</button></td>
             </tr>
                 }

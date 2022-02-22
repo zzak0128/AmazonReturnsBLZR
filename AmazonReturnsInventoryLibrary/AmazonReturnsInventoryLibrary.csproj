@@ -12,12 +12,14 @@
     <None Remove="Microsoft.EntityFrameworkCore.Sqlite" />
     <None Remove="Microsoft.EntityFrameworkCore.Design" />
     <None Remove="SupplyItem\" />
+    <None Remove="Helpers\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Items\" />
     <Folder Include="Transactions\" />
     <Folder Include="Orders\" />
-    <Folder Include="SupplyItem\" />
+    <Folder Include="SupplyItems\" />
+    <Folder Include="Helpers\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.22">

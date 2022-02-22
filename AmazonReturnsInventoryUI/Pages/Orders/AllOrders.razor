@@ -1,12 +1,14 @@
 ﻿@page "/allorders"
 @inject OrderService service
+@inject ItemService iService
+@inject TransactionService tService
 @inject NavigationManager navManager
 
 <h3>Transactions</h3>
 
 <div class="container">
     <div class="mb-3">
-        <button class="btn btn-primary" @onclick="NavigateToCreate">Create an Order</button>
+        <button class="btn btn-primary" @onclick="NavigateToCreate">Start an Order</button>
     </div>
 </div>
 
@@ -14,11 +16,12 @@
     <table class="table table-hover table-striped">
         <thead>
             <tr>
-                <th>Order ID</th>
+                <th>#</th>
                 <th>Items</th>
                 <th>Customer Name</th>
                 <th>Carrier</th>
-                <th>Status</th>
+                <th colspan="2">Status</th>
+                <th>Order Total</th>
             </tr>
         </thead>
         <tbody>
@@ -39,16 +42,20 @@
                         <td>@order.CustomerName</td>
                         <td>@order.Carrier</td>
                         <td>
-                            <EditForm Model="order">
-                            <InputSelect id="status" class="form-control" @bind-Value="@order.Status">
-                                @foreach (var option in Enum.GetValues(typeof(OrderStatus)))
-                                        {
-                                            <option @onselectionchange="(() => updateStatus(order))">@option</option>
-                                        }
-                                </InputSelect>
-                                </EditForm>
+                            <strong>@order.Status</strong>
                         </td>
-                        <td><button class="btn btn-secondary mb-3" @onclick="(() => ViewDetails(order.OrderID))">Details</button><button class="btn btn-danger mb-3" @onclick="(() => DeleteOrder(order))">Delete</button></td>
+                        <td>
+                            <div class="btn-group-sm btn-group-vertical" role="group" aria-label="order-status">
+                                <button type="button" class="btn btn-secondary" @onclick="(()=>MarkInProcess(order))">In Process</button>
+                                <button type="button" class="btn btn-primary" @onclick="(()=>MarkShipped(order))">Shipped</button>
+                                <button type="button" class="btn btn-success" @onclick="(()=>MarkDelivered(order))">Delivered</button>
+                            </div>
+                        </td>
+                        <td>@Format.AsCurrency(order.OrderTotal)</td>
+                        <td>
+                            <button class="btn btn-secondary" @onclick="(() => ViewDetails(order.OrderID))">Details</button>
+                            <button class="btn btn-danger" @onclick="(() => DeleteOrder(order))">Delete</button>
+                        </td>
                     </tr>
                 }
             }
@@ -62,9 +69,12 @@
 
 
 @code {
+    public Transaction NewTransaction { get; set; } = new Transaction();
+    List<Item> items = new List<Item>();
     List<Order> Orders = new List<Order>();
     protected override async Task OnInitializedAsync()
     {
+        items = await iService.GetItemsAsync();
         await RefreshOrders();
     }
 
@@ -73,9 +83,33 @@
         Orders = await service.GetOrdersAsync();
     }
 
-    private async Task updateStatus(Order order)
+    private async Task MarkInProcess(Order order)
     {
+        order.Status = OrderStatus.InProcess;
         await service.AddOrderAsync(order);
+    }
+
+    private async Task MarkShipped(Order order)
+    {
+        order.Status = OrderStatus.Shipped;
+        await service.AddOrderAsync(order);
+    }
+
+    private async Task MarkDelivered(Order order)
+    {
+        order.Status = OrderStatus.Delivered;
+        await AddIncome(order);
+        await service.AddOrderAsync(order);
+    }
+
+    private async Task AddIncome(Order order)
+    {
+        NewTransaction.Description = $"Item Sold: {order.OrderID} Sold";
+        NewTransaction.Quantity = 1;
+        NewTransaction.Type = TransactionType.Income;
+        NewTransaction.Amount = order.OrderTotal;
+
+        await tService.AddTransactionAsync(NewTransaction);
     }
 
     private void NavigateToCreate()

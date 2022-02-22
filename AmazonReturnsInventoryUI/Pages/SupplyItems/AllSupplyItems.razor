@@ -1,4 +1,4 @@
-﻿@page "/allSupplyItems"
+﻿@page "/allsupplyitems"
 @inject SupplyItemService service
 @inject NavigationManager navManager
 
@@ -15,12 +15,11 @@
         <thead>
             <tr>
                 <th>Supply Item ID</th>
-                <th>Title</th>
+                <th>Item</th>
                 <th>Description</th>
-                <th>Category</th>
-                <th>Condition</th>
                 <th>Quantity</th>
-                <th>Price</th>
+                <th>Unit</th>
+                <th>Price per Unit</th>
             </tr>
         </thead>
         <tbody>
@@ -35,7 +34,7 @@
                         <td>@SupplyItem.Description</td>
                         <td>@SupplyItem.Quantity</td>
                         <td>@SupplyItem.Unit</td>
-                        <td>@SupplyItem.Price</td>
+                        <td>@Format.AsCurrency(SupplyItem.Price)</td>
                         <td><button class="btn btn-secondary mb-3" @onclick="(() => ViewDetails(SupplyItem.SupplyID))">Details</button><button class="btn btn-danger mb-3" @onclick="(() => DeleteSupplyItem(SupplyItem))">Delete</button></td>
                     </tr>
                 }
@@ -64,12 +63,12 @@
 
     private void NavigateToCreate()
     {
-        navManager.NavigateTo("/allSupplyItems/new/0");
+        navManager.NavigateTo("/allsupplyitems/new/0");
     }
 
     private void ViewDetails(int id)
     {
-        navManager.NavigateTo($"/allSupplyItems/detail/{id}");
+        navManager.NavigateTo($"/allsupplyitems/detail/{id}");
     }
 
     private async Task DeleteSupplyItem(SupplyItem SupplyItem)

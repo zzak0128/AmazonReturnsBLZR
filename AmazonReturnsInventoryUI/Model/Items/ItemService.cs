@@ -26,28 +26,27 @@ namespace AmazonReturnsInventoryUI.Model.Items
 
 
         //Create
-        public async Task<Item> AddItemAsync(Item Item)
+        public async Task<Item> AddItemAsync(Item item)
         {
             try
             {
 
-                var ItemExist = dbContext.Items.FirstOrDefault(p => p.ItemID == Item.ItemID);
+                var ItemExist = dbContext.Items.FirstOrDefault(p => p.ItemID == item.ItemID);
                 if (ItemExist != null)
                 {
-                    dbContext.Update(Item);
+                    dbContext.Update(item);
                 }
                 else
                 {
-                    dbContext.Items.Add(Item);
+                    dbContext.Items.Add(item);
                 }
-
                 await dbContext.SaveChangesAsync();
             }
             catch (Exception)
             {
                 throw;
             }
-            return Item;
+            return item;
         }
 
         public Item GetItemById(int id)

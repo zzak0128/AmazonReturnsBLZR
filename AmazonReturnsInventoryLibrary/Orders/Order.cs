@@ -20,5 +20,6 @@ namespace AmazonReturnsInventoryLibrary.Orders
         public string ZipCode { get; set; }
         public ShippingCarrier Carrier { get; set; }
         public OrderStatus Status { get; set; }
+        public double OrderTotal { get; set; } = 0.00;
     }
 }

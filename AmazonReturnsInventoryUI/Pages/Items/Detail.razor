@@ -37,7 +37,12 @@
 
         <div class="mb-3">
             <label class="form-label">Price</label>
-            <input class="form-control" readonly value="@DetailItem.Price" />
+            <input class="form-control" readonly value="@Format.AsCurrency(DetailItem.Price)" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Markdown Price</label>
+            <input class="form-control" readonly value="@Calc.MultiplyDoublesAsCurrency(DetailItem.Price, 0.75)" />
         </div>
 
         <div class="mb-3">

@@ -1,5 +1,5 @@
 ﻿<div class="top-row pl-4 navbar navbar-dark">
-    <a class="navbar-brand" href="">AmazonReturnsInventoryUI</a>
+    <a class="navbar-brand" href="">Amazon Returns Database</a>
     <button class="navbar-toggler" @onclick="ToggleNavMenu">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -9,22 +9,27 @@
     <ul class="nav flex-column">
         <li class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
+                <span class="oi oi-pie-chart" aria-hidden="true"></span> Home
             </NavLink>
         </li>
         <li class="nav-item px-3">
             <NavLink class="nav-link" href="alltransactions">
-                <span class="oi oi-plus" aria-hidden="true"></span> Transactions
+                <span class="oi oi-spreadsheet" aria-hidden="true"></span> Transactions
             </NavLink>
         </li>
         <li class="nav-item px-3">
             <NavLink class="nav-link" href="allitems">
-                <span class="oi oi-plus" aria-hidden="true"></span> Items
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Inventory
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="allsupplyitems">
+                <span class="oi oi-box" aria-hidden="true"></span> Supplies
             </NavLink>
         </li>
         <li class="nav-item px-3">
             <NavLink class="nav-link" href="allorders">
-                <span class="oi oi-plus" aria-hidden="true"></span> Orders
+                <span class="oi oi-inbox" aria-hidden="true"></span> Orders
             </NavLink>
         </li>
     </ul>
