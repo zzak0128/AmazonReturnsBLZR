@@ -112,7 +112,7 @@
 
         NewTransaction.Description = $"Sold Items: {itemStrings}";
         NewTransaction.Type = TransactionType.Income;
-        NewTransaction.Amount = order.OrderTotal;
+        NewTransaction.Cost = order.OrderTotal;
 
         await tService.AddTransactionAsync(NewTransaction);
     }

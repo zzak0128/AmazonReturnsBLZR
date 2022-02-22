@@ -42,7 +42,7 @@ namespace AmazonReturnsInventoryUI.Model
         {
             return new List<Transaction>
             {
-                new Transaction { TransactionID = 1, Description = "MyFirst Transaction", Type = TransactionType.Income, Amount = 20.55}
+                new Transaction { TransactionID = 1, Description = "MyFirst Transaction", Type = TransactionType.Income, Cost = 20.55}
             };
         }
 

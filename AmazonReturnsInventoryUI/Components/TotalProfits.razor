@@ -42,11 +42,11 @@
         {
             if(transaction.Type == TransactionType.Expense)
             {
-                TotalExpense += transaction.Amount;
+                TotalExpense += transaction.Cost;
             }
             else if (transaction.Type == TransactionType.Income)
             {
-                TotalIncome += transaction.Amount;
+                TotalIncome += transaction.Cost;
             }
         }
     }

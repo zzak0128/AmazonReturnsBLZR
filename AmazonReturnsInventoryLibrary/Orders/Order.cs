@@ -15,12 +15,14 @@ namespace AmazonReturnsInventoryLibrary.Orders
         public string Street1 { get; set; }
         public string Street2 { get; set; }
         public string City { get; set; }
-        [StringLength(2)]
+        [StringLength(2, ErrorMessage = "Please use the 2 letter state initials.")]
         public string State { get; set; }
-        [StringLength(10)]
+        [DataType(DataType.PostalCode)]
+        [StringLength(10, ErrorMessage = "Please enter a valid ZipCode")]
         public string ZipCode { get; set; }
         public ShippingCarrier Carrier { get; set; }
         public OrderStatus Status { get; set; }
+        [DataType(DataType.Currency)]
         public double OrderTotal { get; set; } = 0.00;
     }
 }
