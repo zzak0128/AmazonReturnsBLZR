@@ -4,11 +4,35 @@
 
 <h3>Transactions</h3>
 
-<div class="container">
+@*<div class="container">
     <div class="mb-3">
         <button class="btn btn-primary" @onclick="NavigateToCreate">New Transaction</button>
     </div>
+</div>*@
+
+<div class="container">
+    <EditForm Model="NewTransaction">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <label for="description">Description</label>
+        <InputText id="description"></InputText>
+
+        <label for="type">Type</label>
+        <InputSelect @bind-Value="NewTransaction.Type">
+            @foreach (var type in Enum.GetValues(typeof(TransactionType)))
+            {
+                <option>@type</option>
+            }
+        </InputSelect>
+
+        <label for="Cost">Cost</label>
+        <InputNumber @bind-Value="NewTransaction.Amount"/>
+
+        <button class="btn btn-primary" type="submit">Add Transaction</button>
+        <button class="btn btn-secondary" type="reset">Clear</button>
+    </EditForm>
 </div>
+
 
 <div class="container">
    
@@ -21,9 +45,7 @@
                 <th>Transaction ID</th>
                 <th>Description</th>
                 <th>Type</th>
-                <th>Quantity</th>
                 <th>Cost</th>
-                <th>Total</th>
             </tr>
         </thead>
         <tbody>
@@ -36,9 +58,7 @@
                         <td>@transaction.TransactionID</td>
                         <td>@transaction.Description</td>
                         <td>@transaction.Type</td>
-                        <td>@transaction.Quantity</td>
                         <td>@Format.AsCurrency(transaction.Amount)</td>
-                        <td>@Calc.MultiplyDoublesAsCurrency(transaction.Amount, transaction.Quantity)</td>
                         <td><button class="btn btn-secondary mb-3" @onclick="(() => ViewDetails(transaction.TransactionID))">Details</button><button class="btn btn-danger mb-3" @onclick="(() => DeleteTransaction(transaction))">Delete</button></td>
                     </tr>
                 }
@@ -54,6 +74,7 @@
 
 @code {
     double totalExpense = 0.00;
+    public Transaction NewTransaction { get; set; } = new Transaction();
 
     List<Transaction> Transactions = new List<Transaction>();
     protected override async Task OnInitializedAsync()
@@ -67,16 +88,14 @@
         totalExpense = 0.00;
         foreach (var transaction in Transactions)
         {
-            int quantity = transaction.Quantity;
             double amount = transaction.Amount;
-            double itemTotal = quantity * amount;
             if(transaction.Type == TransactionType.Expense)
             {
-                totalExpense -= itemTotal;
+                totalExpense -= amount;
             }
             else
             {
-                totalExpense += itemTotal;
+                totalExpense += amount;
             }
         }
     }
@@ -84,6 +103,12 @@
     private async Task RefreshTransactions()
     {
         Transactions = await service.GetTransactionsAsync();
+    }
+
+    private async Task AddTransaction()
+    {
+        await service.AddTransactionAsync(NewTransaction);
+        NewTransaction = new Transaction();
     }
 
     private void NavigateToCreate()

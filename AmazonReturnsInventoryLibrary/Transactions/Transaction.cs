@@ -10,7 +10,6 @@ namespace AmazonReturnsInventoryLibrary.Transactions
         [Required]
         public string Description { get; set; }
         public TransactionType Type { get; set; } //ENUM Expense or Income
-        public int Quantity { get; set; }
         [Required]
         public double Amount { get; set; }
     }

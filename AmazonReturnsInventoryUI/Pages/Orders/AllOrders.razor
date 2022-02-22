@@ -104,8 +104,13 @@
 
     private async Task AddIncome(Order order)
     {
-        NewTransaction.Description = $"Item Sold: {order.OrderID} Sold";
-        NewTransaction.Quantity = 1;
+        string itemStrings = "";
+        foreach (var item in order.Items)
+        {
+            itemStrings += $"{item.Title},";
+        }
+
+        NewTransaction.Description = $"Sold Items: {itemStrings}";
         NewTransaction.Type = TransactionType.Income;
         NewTransaction.Amount = order.OrderTotal;
 

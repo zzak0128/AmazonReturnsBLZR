@@ -42,11 +42,11 @@
         {
             if(transaction.Type == TransactionType.Expense)
             {
-                TotalExpense += Calc.multiplyDoubles(transaction.Quantity, transaction.Amount);
+                TotalExpense += transaction.Amount;
             }
             else if (transaction.Type == TransactionType.Income)
             {
-                TotalIncome += Calc.multiplyDoubles(transaction.Quantity, transaction.Amount);
+                TotalIncome += transaction.Amount;
             }
         }
     }

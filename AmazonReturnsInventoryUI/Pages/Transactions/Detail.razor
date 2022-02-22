@@ -21,18 +21,8 @@
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Quantity</label>
-            <input class="form-control" readonly value="@DetailTransaction.Quantity" />
-        </div>
-
-        <div class="mb-3">
             <label class="form-label">Amount</label>
             <input class="form-control" readonly value="@Format.AsCurrency(DetailTransaction.Amount)" />
-        </div>
-
-        <div class="mb-3">
-            <label class="form-label">Total</label>
-            <input class="form-control" readonly value="@Calc.MultiplyDoublesAsCurrency(DetailTransaction.Amount, DetailTransaction.Quantity)" />
         </div>
 
         <div class="mb-3">
