@@ -35,8 +35,13 @@ namespace AmazonReturnsInventoryUI
             services.AddServerSideBlazor();
             services.AddDbContext<ApplicationDbContext>(options =>
             {
-                options.UseSqlite("Data Source=AmazonReturns.db");
+                options.UseSqlServer(Configuration.GetConnectionString("Docker"));
             });
+
+            //services.AddDbContext<ApplicationDbContext>(options =>
+            //{
+            //    options.UseSqlite("Data Source=AmazonReturns.db");
+            //});
             services.AddScoped<TransactionService>();
             services.AddScoped<OrderService>();
             services.AddScoped<ItemService>();

@@ -16,7 +16,9 @@ namespace AmazonReturnsInventoryLibrary.Orders
         public string Street1 { get; set; }
         public string Street2 { get; set; }
         public string City { get; set; }
+        [StringLength(2)]
         public string State { get; set; }
+        [StringLength(10)]
         public string ZipCode { get; set; }
         public ShippingCarrier Carrier { get; set; }
         public OrderStatus Status { get; set; }

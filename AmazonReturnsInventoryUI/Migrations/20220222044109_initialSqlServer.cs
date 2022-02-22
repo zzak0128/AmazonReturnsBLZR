@@ -2,7 +2,7 @@
 
 namespace AmazonReturnsInventoryUI.Migrations
 {
-    public partial class AddClassDataAnnotations : Migration
+    public partial class initialSqlServer : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,7 +11,7 @@ namespace AmazonReturnsInventoryUI.Migrations
                 columns: table => new
                 {
                     OrderID = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CustomerName = table.Column<string>(nullable: false),
                     Street1 = table.Column<string>(nullable: true),
                     Street2 = table.Column<string>(nullable: true),
@@ -19,7 +19,8 @@ namespace AmazonReturnsInventoryUI.Migrations
                     State = table.Column<string>(nullable: true),
                     ZipCode = table.Column<string>(nullable: true),
                     Carrier = table.Column<string>(nullable: false),
-                    Status = table.Column<string>(nullable: false)
+                    Status = table.Column<string>(nullable: false),
+                    OrderTotal = table.Column<double>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -31,7 +32,7 @@ namespace AmazonReturnsInventoryUI.Migrations
                 columns: table => new
                 {
                     SupplyID = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(nullable: false),
                     Description = table.Column<string>(nullable: true),
                     Quantity = table.Column<int>(nullable: false),
@@ -48,7 +49,7 @@ namespace AmazonReturnsInventoryUI.Migrations
                 columns: table => new
                 {
                     TransactionID = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Description = table.Column<string>(nullable: false),
                     Type = table.Column<string>(nullable: false),
                     Quantity = table.Column<int>(nullable: false),
@@ -64,7 +65,7 @@ namespace AmazonReturnsInventoryUI.Migrations
                 columns: table => new
                 {
                     ItemID = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(nullable: false),
                     Description = table.Column<string>(nullable: true),
                     Category = table.Column<string>(nullable: false),
@@ -89,11 +90,6 @@ namespace AmazonReturnsInventoryUI.Migrations
                 table: "Items",
                 columns: new[] { "ItemID", "Category", "Condition", "Description", "OrderID", "Price", "Quantity", "SKU", "Title" },
                 values: new object[] { 1, "Pet", "Used", "FurBuddy 26'' Dog Bed", null, 25.989999999999998, 1, "4492749273", "Dog Bed" });
-
-            migrationBuilder.InsertData(
-                table: "Orders",
-                columns: new[] { "OrderID", "Carrier", "City", "CustomerName", "State", "Status", "Street1", "Street2", "ZipCode" },
-                values: new object[] { 1, "FedEx", "New York", "George Constanza", "New York", "Shipped", "504th Street", "PO Box 1234", "55660" });
 
             migrationBuilder.InsertData(
                 table: "Transactions",

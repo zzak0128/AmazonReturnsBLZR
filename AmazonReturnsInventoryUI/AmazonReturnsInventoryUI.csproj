@@ -23,6 +23,7 @@
     <None Remove="Components\" />
     <None Remove="Model\SupplyItems\" />
     <None Remove="Pages\SupplyItems\" />
+    <None Remove="Microsoft.EntityFrameworkCore.SqlServer" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Model\" />
@@ -41,5 +42,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.22" />
   </ItemGroup>
 </Project>
