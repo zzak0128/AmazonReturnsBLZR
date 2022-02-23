@@ -1,0 +1,70 @@
+﻿<h3>Total: Supply Assets</h3>
+<div class="container">
+    <table id="totalassets" class="table table-success">
+        <tbody>
+            <tr>
+                <td>Total:</td>
+                <td>@Format.AsCurrency(totalAssets)</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table id="emptyitems" class="table table-striped">
+        <thead>
+            <th><h4>Items - Low Stock</h4></th>
+            <th colspan="3"></th>
+            <th>Total</th>
+        </thead>
+        <tbody>
+            @if (LowItems.Any())
+            {
+                @foreach (var item in LowItems)
+                {
+                    <tr>
+                        <td>@item.Title</td>
+                        <td>@item.Quantity</td>
+                        <td>@item.Unit</td>
+                        <td>@item.Price</td>
+                        <td>@Calc.CalcItemTotal(item.Price, item.Quantity)</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td><strong>No Low Items: Stock is good!</strong></td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+
+@code {
+    [Parameter]
+    public List<SupplyItem> Supplies { get; set; }
+
+    public List<SupplyItem> LowItems { get; set; } = new List<SupplyItem>();
+
+    private double totalAssets = 0.00;
+    protected override void OnParametersSet()
+    {
+        SumAssets();
+        FindLowItems();
+        StateHasChanged();
+    }
+
+    private void SumAssets()
+    {
+        foreach (var item in Supplies)
+        {
+            totalAssets += item.Price;
+        }
+    }
+
+    private void FindLowItems()
+    {
+        LowItems = Supplies.FindAll(s => s.Quantity <= 2).ToList();
+    }
+
+}

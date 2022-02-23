@@ -1,14 +1,33 @@
 ﻿@page "/"
 
 <h1>Home</h1>
-<TotalProfits tService="@tService"/><OrderInProgress service="@oService"/>
+<TotalProfits Transactions="AllTransactions" />
+
+@*<OrderInProgress service="@oService" />*@
+
+<SuppliesSummary Supplies="AllSupplies" />
 
 
 @code {
+    private List<Order> AllOrders { get; set; } = new List<Order>();
+    private List<Transaction> AllTransactions { get; set; } = new List<Transaction>();
+    private List<Item> AllItems { get; set; } = new List<Item>();
+    private List<SupplyItem> AllSupplies { get; set; } = new List<SupplyItem>();
+
     [Inject]
     private OrderService oService { get; set; }
     [Inject]
     private TransactionService tService { get; set; }
     [Inject]
     private ItemService iService { get; set; }
+    [Inject]
+    private SupplyItemService sService { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        AllOrders = await oService.GetOrdersAsync();
+        AllTransactions = await tService.GetTransactionsAsync();
+        AllItems = await iService.GetItemsAsync();
+        AllSupplies = await sService.GetSupplyItemsAsync();
+    }
 }

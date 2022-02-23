@@ -3,10 +3,18 @@ namespace AmazonReturnsInventoryLibrary.Helpers
 {
     public class Calc
     {
+        public static string CalcItemTotal(double price, int quantity)
+        {
+            double factor = price * quantity;
+            string output = Format.AsCurrency(factor);
+            return output;
+        }
+        
+
         public static string MultiplyDoublesAsCurrency(double a, double b)
         {
             double output = a * b;
-            return output.ToString("C");
+            return Format.AsCurrency(output);
         }
 
         public static double multiplyDoubles(double a, double b)

@@ -13,7 +13,7 @@
             </tr>
             <tr>
                 <td>Total Profits</td>
-                <td>@Format.AsCurrency(Calc.AddCurrencies(TotalIncome,TotalExpense))</td>
+                <td>@Format.AsCurrency(Calc.AddCurrencies(TotalIncome, TotalExpense))</td>
             </tr>
         </tbody>
     </table>
@@ -21,16 +21,14 @@
 
 @code {
     [Parameter]
-    public TransactionService tService { get; set; }
-
     public List<Transaction> Transactions { get; set; }
     public double TotalExpense { get; set; }
     public double TotalIncome { get; set; }
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnParametersSet()
     {
-        Transactions = await tService.GetTransactionsAsync();
         GetTotalExpenses();
+        StateHasChanged();
     }
 
     private void GetTotalExpenses()
@@ -40,7 +38,7 @@
 
         foreach (var transaction in Transactions)
         {
-            if(transaction.Type == TransactionType.Expense)
+            if (transaction.Type == TransactionType.Expense)
             {
                 TotalExpense += transaction.Cost;
             }
