@@ -1,0 +1,41 @@
+﻿<h3>Orders In Progress</h3>
+
+<div class="container-md">
+    <table class="table table-striped">
+        <tbody>
+            @foreach (var order in Orders)
+            {
+                <tr>
+                    <td>@order.CustomerName</td>
+                    @*<td>
+                            @foreach (var item in order.Items)
+                            {
+                                @item.Title
+                                <br/>
+                            }
+                      </td>*@
+                    <td>@order.Carrier</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@code {
+    [Parameter]
+    public OrderService service { get; set; }
+
+    List<Order> Orders { get; set; } = new List<Order>();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await GetOrdersInProgressAsync();
+    }
+
+    private async Task GetOrdersInProgressAsync()
+    {
+        Orders = await service.GetOrdersAsync();
+        Orders = Orders.FindAll(o => o.Status == OrderStatus.InProcess);
+        StateHasChanged();
+    }
+}

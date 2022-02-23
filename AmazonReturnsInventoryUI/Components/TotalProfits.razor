@@ -5,7 +5,7 @@
         <tbody>
             <tr>
                 <td>Expenses</td>
-                <td>@Format.AsCurrency(TotalExpense)</td>
+                <td>-@Format.AsCurrency(TotalExpense)</td>
             </tr>
             <tr>
                 <td>Income</td>
@@ -20,8 +20,8 @@
 </div>
 
 @code {
-    [Inject]
-    protected TransactionService tService { get; set; }
+    [Parameter]
+    public TransactionService tService { get; set; }
 
     public List<Transaction> Transactions { get; set; }
     public double TotalExpense { get; set; }

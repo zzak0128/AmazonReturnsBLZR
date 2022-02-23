@@ -6,6 +6,7 @@
         USPS,
         UPS,
         PickUp,
-        Delivery
+        Delivery,
+        WriteOff
     }
 }

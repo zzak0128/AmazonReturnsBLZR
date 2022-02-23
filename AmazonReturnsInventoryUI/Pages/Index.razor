@@ -1,4 +1,14 @@
 ﻿@page "/"
 
 <h1>Home</h1>
-<TotalProfits />
+<TotalProfits tService="@tService"/><OrderInProgress service="@oService"/>
+
+
+@code {
+    [Inject]
+    private OrderService oService { get; set; }
+    [Inject]
+    private TransactionService tService { get; set; }
+    [Inject]
+    private ItemService iService { get; set; }
+}
