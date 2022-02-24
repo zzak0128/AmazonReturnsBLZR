@@ -36,7 +36,8 @@
         </div>
 
         <div class="mb-3">
-            <button class="btn" @onclick="NavigateBack">Back</button> | <button class="btn" @onclick="ToEdit">Edit</button>
+            <button class="btn btn-secondary" @onclick="NavigateBack">Back</button>
+            <button class="btn" @onclick="ToEdit">Edit</button>
         </div>
     </form>
 </div>
@@ -59,6 +60,6 @@
 
     private void ToEdit()
     {
-        navManager.NavigateTo($"/allsupplyitems/new/{id}", true);
+        navManager.NavigateTo($"/allsupplyitems/edit/{id}", true);
     }
 }

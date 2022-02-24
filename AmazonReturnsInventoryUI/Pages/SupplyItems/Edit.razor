@@ -1,0 +1,57 @@
+﻿@page "/allsupplyitems/edit/{id:int}"
+@inject SupplyItemService service
+@inject NavigationManager navManager
+
+<div class="row m-3">
+    <EditForm Model="EditSupplyItem" OnValidSubmit="UpdateSupplyItem">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="mb-3">
+            <button class="btn btn-primary" type="submit">Update</button>
+            <button class="btn btn-secondary" type="button" @onclick="ToAll">Cancel</button>
+        </div>
+
+
+        <label for="title">Item</label>
+        <InputText id="title" class="form-control" @bind-Value="@EditSupplyItem.Title" />
+
+        <label for="description">Description</label>
+        <InputTextArea id="description" class="form-control" @bind-Value="@EditSupplyItem.Description" />
+
+        <label for="quantity">Quantity</label>
+        <InputNumber id="quantity" class="form-control" @bind-Value="@EditSupplyItem.Quantity" />
+
+        <label for="unit">Unit</label>
+        <InputText id="quantity" class="form-control" @bind-Value="@EditSupplyItem.Unit" />
+
+        <label for="price">Price per Unit</label>
+        <InputNumber id="price" class="form-control" @bind-Value="@EditSupplyItem.Price" />
+
+
+    </EditForm>
+
+
+</div>
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+    private SupplyItem EditSupplyItem { get; set; } = new SupplyItem();
+
+    protected override void OnInitialized()
+    {
+        EditSupplyItem = service.GetSupplyItemById(Id);
+    }
+
+    private async Task UpdateSupplyItem()
+    {
+        await service.AddSupplyItemAsync(EditSupplyItem);
+        navManager.NavigateTo("/allSupplyItems/");
+    }
+
+    private void ToAll()
+    {
+        navManager.NavigateTo("/allSupplyItems", true);
+    }
+}

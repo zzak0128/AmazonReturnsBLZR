@@ -26,20 +26,21 @@
 
             @if (SupplyItems.Any())
             {
-                @foreach (var SupplyItem in SupplyItems)
+                @foreach (var supplyItem in SupplyItems)
                 {
-                    <tr>
-                        <td>@SupplyItem.SupplyID</td>
-                        <td>@SupplyItem.Title</td>
-                        <td>@SupplyItem.Description</td>
-                        <td>@SupplyItem.Quantity</td>
-                        <td>@SupplyItem.Unit</td>
-                        <td>@Format.AsCurrency(SupplyItem.Price)</td>
-                        <td>
-                            <button class="btn btn-secondary" @onclick="(() => ViewDetails(SupplyItem.SupplyID))">Details</button>
-                            <button class="btn btn-danger" @onclick="(() => DeleteSupplyItem(SupplyItem))">Delete</button>
-                        </td>
-                    </tr>
+            <tr >
+                <td>@supplyItem.SupplyID</td>
+                <td>@supplyItem.Title</td>
+                <td>@supplyItem.Description</td>
+                <td>@supplyItem.Quantity</td>
+                <td>@supplyItem.Unit</td>
+                <td>@Format.AsCurrency(supplyItem.Price)</td>
+                <td>
+                    <button class="btn btn-secondary" type="button" @onclick="(() => NavigateToDetail(supplyItem.SupplyID))">Details</button>
+                    <button class="btn btn-secondary" type="button" @onclick="(() => NavigateToEdit(supplyItem.SupplyID))">Edit</button>
+                    <button class="btn btn-danger" type="button" @onclick="(() => DeleteSupplyItem(supplyItem))">Delete</button>
+                </td>
+            </tr>
                 }
             }
             else
@@ -52,6 +53,7 @@
 
 
 @code {
+    public SupplyItem SelectedItem { get; set; } = new SupplyItem();
 
     List<SupplyItem> SupplyItems = new List<SupplyItem>();
     protected override async Task OnInitializedAsync()
@@ -68,14 +70,19 @@
         });
     }
 
-    private void NavigateToCreate()
-    {
-        navManager.NavigateTo("/allsupplyitems/new/0");
-    }
-
-    private void ViewDetails(int id)
+    private void NavigateToDetail(int id)
     {
         navManager.NavigateTo($"/allsupplyitems/detail/{id}");
+    }
+
+    private void NavigateToCreate()
+    {
+        navManager.NavigateTo("/allsupplyitems/new");
+    }
+
+    private void NavigateToEdit(int id)
+    {
+        navManager.NavigateTo($"/allsupplyitems/edit/{id}");
     }
 
     private async Task DeleteSupplyItem(SupplyItem SupplyItem)

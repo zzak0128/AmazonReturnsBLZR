@@ -1,4 +1,4 @@
-﻿@page "/allsupplyitems/new/{id:int}"
+﻿@page "/allsupplyitems/new"
 @inject SupplyItemService service
 @inject NavigationManager navManager
 
@@ -7,14 +7,7 @@
         <DataAnnotationsValidator />
         <ValidationSummary/>
         <div class="mb-3">
-            @if (Id > 0)
-            {
-                <button class="btn btn-primary" type="submit">Update</button>
-            }
-            else
-            {
-                <button class="btn btn-primary" type="submit">Add</button>
-            }
+            <button class="btn btn-primary" type="submit">Add</button>
             <button class="btn btn-secondary" type="button" @onclick="ToAll">Cancel</button>
         </div>
 
@@ -41,19 +34,7 @@
 </div>
 
 @code {
-
-    [Parameter]
-    public int? Id { get; set; }
     private SupplyItem NewSupplyItem { get; set; } = new SupplyItem();
-
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        if (Id > 0)
-        {
-            NewSupplyItem = service.GetSupplyItemById(Id.Value);
-        }
-    }
 
     private async Task AddSupplyItem()
     {
