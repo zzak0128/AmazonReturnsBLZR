@@ -5,8 +5,8 @@
 
 <div class="row m-3">
     <EditForm Model="NewOrder" OnValidSubmit="AddOrder">
-        <DataAnnotationsValidator/>
-        <ValidationSummary/>
+        <DataAnnotationsValidator />
+        <ValidationSummary />
         <div class="mb-3">
 
             <button class="btn btn-primary" type="submit">Save</button>
@@ -38,6 +38,9 @@
                 <option>@option</option>
             }
         </InputSelect>
+
+        <label for="ship-cost">Shipping Cost</label>
+        <InputNumber id="ship-cost" class="form-control" @bind-Value="@NewOrder.ShippingCost" />
 
         <label for="items">Select Items</label>
         <MultiSelect NoSelected="itemList" Selected="SelectedItems" />

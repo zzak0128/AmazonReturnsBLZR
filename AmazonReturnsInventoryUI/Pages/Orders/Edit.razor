@@ -38,6 +38,9 @@
             }
         </InputSelect>
 
+        <label for="ship-cost">Shipping Cost</label>
+        <InputNumber id="ship-cost" class="form-control" @bind-Value="@EditOrder.ShippingCost" />
+
         <label for="items">Select Items</label>
         <MultiSelect NoSelected="itemList" Selected="SelectedItems" />
     </EditForm>

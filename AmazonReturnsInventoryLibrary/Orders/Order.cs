@@ -24,5 +24,7 @@ namespace AmazonReturnsInventoryLibrary.Orders
         public OrderStatus Status { get; set; }
         [DataType(DataType.Currency)]
         public double OrderTotal { get; set; } = 0.00;
+        [DataType(DataType.Currency)]
+        public double ShippingCost { get; set; } = 0.00;
     }
 }

@@ -51,7 +51,7 @@
                                 <button type="button" class="btn btn-success" @onclick="(()=>MarkDelivered(order))">Delivered</button>
                             </div>
                         </td>
-                        <td>@Format.AsCurrency(order.OrderTotal)</td>
+                        <td>@Format.AsCurrency(order.OrderTotal - order.ShippingCost)</td>
                         <td>
                             <button class="btn btn-secondary" @onclick="(() => ViewDetails(order.OrderID))">Details</button>
                             <button class="btn btn-danger" @onclick="(() => DeleteOrder(order))">Delete</button>
