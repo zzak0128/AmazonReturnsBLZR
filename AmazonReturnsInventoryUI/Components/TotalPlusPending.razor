@@ -1,0 +1,80 @@
+﻿
+<div class="container">
+    <table class="table">
+        <thead>
+            <th><h3>Transaction Totals</h3></th>
+        </thead>
+            <tbody>
+
+                <tr class="table-danger">
+                    <td>Expenses</td>
+                    <td>-@Format.AsCurrency(totalExpense)</td>
+                </tr>
+                <tr class="table-success">
+                    <td>Income</td>
+                    <td>@Format.AsCurrency(totalIncome)</td>
+                </tr>
+                <tr class="table-warning">
+                    <td>Total Pending</td>
+                    <td>@Format.AsCurrency(pendingTotal)</td>
+                </tr>
+                <tr>
+                    <td>Profits</td>
+                    <td>@Format.AsCurrency(totalIncome - totalExpense)</td>
+                </tr>
+                <tr>
+                    <td>Profits Including Pending</td>
+                    <td>@Format.AsCurrency(pendingTotal + (totalIncome - totalExpense))</td>
+                </tr>
+            </tbody>
+    </table>
+</div>
+
+@code {
+    [Parameter]
+    public List<Order> Orders { get; set; }
+    [Parameter]
+    public List<Transaction> Transactions { get; set; }
+
+    private List<Order> pendingOrders = new List<Order>();
+    private double pendingTotal = 0.00;
+    private double totalExpense = 0.00;
+    private double totalIncome = 0.00;
+    protected override void OnParametersSet()
+    {
+        GetPendingOrders();
+        pendingTotal = GetOrderTotal(pendingOrders);
+        GetTransactionTotals(Transactions);
+    }
+
+    private void GetPendingOrders()
+    {
+        pendingOrders = Orders.FindAll(o => o.Status != OrderStatus.Delivered).ToList();
+    }
+
+    private double GetOrderTotal(List<Order> orders)
+    {
+        double output = 0.00;
+        foreach (var order in orders)
+        {
+            output += order.OrderTotal;
+        }
+        return output;
+    }
+
+    private void GetTransactionTotals(List<Transaction> transactions)
+    {
+        double output = 0.00;
+        foreach (var transaction in transactions)
+        {
+            if(transaction.Type == TransactionType.Expense)
+            {
+                totalExpense += transaction.Cost;
+            }
+            else
+            {
+                totalIncome += transaction.Cost;
+            }
+        }
+    }
+}
