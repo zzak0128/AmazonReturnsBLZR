@@ -1,0 +1,56 @@
+﻿@page "/alltransactions/edit/{id:int}"
+@inject TransactionService service
+@inject NavigationManager navManager
+
+<div class="row m-3">
+    <EditForm Model="EditTransaction" OnValidSubmit="UpdateTransaction">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="mb-3">
+                <button class="btn btn-primary" type="submit">Update</button>
+            <button class="btn btn-secondary" type="button" @onclick="ToAll">Cancel</button>
+        </div>
+
+
+        <label for="description">Description</label>
+        <InputText id="description" class="form-control" @bind-Value="@EditTransaction.Description" />
+
+
+
+        <label for="type">Type</label>
+        <InputSelect id="type" class="form-control" @bind-Value="@EditTransaction.Type">
+            @foreach (var option in Enum.GetValues(typeof(TransactionType)))
+            {
+                <option>@option</option>
+            }
+        </InputSelect>
+
+        <label for="amount">Amount</label>
+        <InputNumber id="amount" class="form-control" @bind-Value="@EditTransaction.Cost" />
+    </EditForm>
+
+
+</div>
+
+@code {
+
+    [Parameter]
+    public int? Id { get; set; }
+    private Transaction EditTransaction { get; set; } = new Transaction();
+
+    protected override void OnInitialized()
+    {
+        EditTransaction = service.GetTransactionById(Id.Value);
+    }
+
+    private async Task UpdateTransaction()
+    {
+        await service.AddTransactionAsync(EditTransaction);
+        navManager.NavigateTo("/alltransactions/");
+    }
+
+    private void ToAll()
+    {
+        navManager.NavigateTo("/alltransactions", true);
+    }
+}

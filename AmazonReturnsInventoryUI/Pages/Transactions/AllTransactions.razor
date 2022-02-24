@@ -4,12 +4,6 @@
 
 <h3>Transactions</h3>
 
-@*<div class="container">
-        <div class="mb-3">
-            <button class="btn btn-primary" @onclick="NavigateToCreate">New Transaction</button>
-        </div>
-    </div>*@
-
 <div class="container">
     <EditForm Model="@NewTransaction" OnValidSubmit="@HandleValidSubmit">
         <DataAnnotationsValidator />
@@ -54,6 +48,24 @@
                 <th>Description</th>
                 <th>Type</th>
                 <th>Cost</th>
+                <th>
+                    @if (IsFilteredByExpense)
+                    {
+                        <button class="btn btn-sm btn-primary" type="button" @onclick="@FilterByExpense">Expense</button>
+                    }
+                    else
+                    {
+                        <button class="btn btn-sm btn-secondary" type="button" @onclick="@FilterByExpense">Expense</button>
+                    }
+                    @if (IsFilteredByIncome)
+                    {
+                        <button class="btn btn-sm btn-primary" type="button" @onclick="@FilterByIncome">Income</button>
+                    }
+                    else
+                    {
+                        <button class="btn btn-sm btn-secondary" type="button" @onclick="@FilterByIncome">Income</button>
+                    }
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -67,8 +79,11 @@
                         <td>@transaction.Description</td>
                         <td>@transaction.Type</td>
                         <td>@Format.AsCurrency(transaction.Cost)</td>
-                        <td><button class="btn btn-secondary" @onclick="(() => ViewDetails(transaction.TransactionID))">Details</button>
-                        <button class="btn btn-danger" @onclick="(() => DeleteTransaction(transaction))">Delete</button></td>
+                        <td>
+                            <button class="btn btn-secondary" @onclick="(() => ViewDetails(transaction.TransactionID))">Details</button>
+                            <button class="btn btn-secondary" @onclick="(() => NavigateToEdit(transaction.TransactionID))">Edit</button>
+                            <button class="btn btn-danger" @onclick="(() => DeleteTransaction(transaction))">Delete</button>
+                        </td>
                     </tr>
                 }
             }
@@ -84,6 +99,9 @@
 @code {
     double totalExpense = 0.00;
     public Transaction NewTransaction { get; set; } = new Transaction();
+
+    public bool IsFilteredByExpense { get; set; } = false;
+    public bool IsFilteredByIncome { get; set; } = false;
 
     List<Transaction> Transactions = new List<Transaction>();
     protected override async Task OnInitializedAsync()
@@ -123,7 +141,7 @@
 
     private void NavigateToCreate()
     {
-        navManager.NavigateTo("/alltransactions/new/0");
+        navManager.NavigateTo("/alltransactions/new");
     }
 
     private void ViewDetails(int id)
@@ -131,10 +149,44 @@
         navManager.NavigateTo($"/alltransactions/detail/{id}");
     }
 
+    private void NavigateToEdit(int id)
+    {
+        navManager.NavigateTo($"/alltransactions/edit/{id}");
+    }
+
     private async Task DeleteTransaction(Transaction transaction)
     {
         await service.DeleteTransactionAsync(transaction);
         await RefreshTransactions();
         CalculateTotal();
+    }
+
+    private async Task FilterByExpense()
+    {
+        IsFilteredByExpense = !IsFilteredByExpense;
+        List<Transaction> transactions = await service.GetTransactionsAsync();
+        if (IsFilteredByExpense)
+        {
+            IsFilteredByIncome = false;
+            Transactions = transactions.Where(i => i.Type == TransactionType.Expense).ToList();
+        }
+        else
+        {
+            Transactions = transactions;
+        }
+    }
+    private async Task FilterByIncome()
+    {
+        IsFilteredByIncome = !IsFilteredByIncome;
+        List<Transaction> transactions = await service.GetTransactionsAsync();
+        if (IsFilteredByIncome)
+        {
+            IsFilteredByExpense = false;
+            Transactions = transactions.Where(i => i.Type == TransactionType.Income).ToList();
+        }
+        else
+        {
+            Transactions = transactions;
+        }
     }
 }
