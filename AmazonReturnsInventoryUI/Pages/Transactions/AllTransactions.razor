@@ -51,7 +51,7 @@
                 <th>
                     @if (IsFilteredByExpense)
                     {
-                        <button class="btn btn-sm btn-primary" type="button" @onclick="@FilterByExpense">Expense</button>
+                        <button class="btn btn-sm btn-warning" type="button" @onclick="@FilterByExpense">Expense</button>
                     }
                     else
                     {
@@ -59,7 +59,7 @@
                     }
                     @if (IsFilteredByIncome)
                     {
-                        <button class="btn btn-sm btn-primary" type="button" @onclick="@FilterByIncome">Income</button>
+                        <button class="btn btn-sm btn-warning" type="button" @onclick="@FilterByIncome">Income</button>
                     }
                     else
                     {

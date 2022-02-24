@@ -45,7 +45,7 @@
         </div>
     </div>
 
-<div class="container">
+<div class="container-fluid">
     <table class="table table-hover table-striped">
         <thead>
             <tr>
@@ -81,10 +81,11 @@
                         {
                             <td><input class="form-check-Input" type="checkbox" disabled="disabled" /></td>
                         }
-                        <td>
-                            <button class="btn btn-secondary" @onclick="(() => ViewDetails(item.ItemID))">Details</button>
-                            <button class="btn btn-danger" @onclick="(() => DeleteItem(item))">Delete</button>
-                        </td>
+                    <td>
+                        <button class="btn btn-secondary" @onclick="(() => NavigateToDetails(item.ItemID))">Details</button>
+                        <button class="btn btn-secondary" @onclick="(() => NavigateToEdit(item.ItemID))">Edit</button>
+                        <button class="btn btn-danger" @onclick="(() => DeleteItem(item))">Delete</button>
+                    </td>
                     </tr>
                 }
             }
@@ -117,10 +118,15 @@
 
     private void NavigateToCreate()
     {
-        navManager.NavigateTo("/allitems/new/0");
+        navManager.NavigateTo("/allitems/new");
     }
 
-    private void ViewDetails(int id)
+    private void NavigateToEdit(int id)
+    {
+        navManager.NavigateTo($"/allitems/edit/{id}");
+    }
+
+    private void NavigateToDetails(int id)
     {
         navManager.NavigateTo($"/allitems/detail/{id}");
     }

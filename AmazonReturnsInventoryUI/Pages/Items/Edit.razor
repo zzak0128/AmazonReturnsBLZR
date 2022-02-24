@@ -1,28 +1,28 @@
-﻿@page "/allitems/new"
+﻿@page "/allitems/edit/{id:int}"
 @inject ItemService service
 @inject NavigationManager navManager
 
 <div class="row m-3">
-    <EditForm Model="NewItem" OnValidSubmit="AddItem">
-        <DataAnnotationsValidator/>
-        <ValidationSummary/>
+    <EditForm Model="EditItem" OnValidSubmit="AddItem">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
         <div class="mb-3">
-            <button class="btn btn-primary" type="submit">Add</button>
+                <button class="btn btn-primary" type="submit">Update</button>
+            
             <button class="btn btn-secondary" type="button" @onclick="ToAll">Cancel</button>
         </div>
 
 
         <label for="title">Item</label>
-        <InputText id="title" class="form-control" @bind-Value="@NewItem.Title" />
 
         <label for="description">Description</label>
-        <InputTextArea id="description" class="form-control" @bind-Value="@NewItem.Description" />
+        <InputTextArea id="description" class="form-control" @bind-Value="@EditItem.Description" />
 
         <label for="sku">SKU</label>
-        <InputText id="sku" class="form-control" @bind-Value="@NewItem.SKU" />
+        <InputText id="sku" class="form-control" @bind-Value="@EditItem.SKU" />
 
         <label for="category">Category</label>
-        <InputSelect id="category" class="form-control" @bind-Value="@NewItem.Category">
+        <InputSelect id="category" class="form-control" @bind-Value="@EditItem.Category">
             @foreach (var option in Enum.GetValues(typeof(Category)))
             {
                 <option>@option</option>
@@ -30,7 +30,7 @@
         </InputSelect>
 
         <label for="condition">Condition</label>
-        <InputSelect id="category" class="form-control" @bind-Value="@NewItem.Condition">
+        <InputSelect id="category" class="form-control" @bind-Value="@EditItem.Condition">
             @foreach (var option in Enum.GetValues(typeof(Condition)))
             {
                 <option>@option</option>
@@ -38,20 +38,24 @@
         </InputSelect>
 
         <label for="price">Amount</label>
-        <InputNumber id="price" class="form-control" @bind-Value="@NewItem.Price" />
-
-
+        <InputNumber id="price" class="form-control" @bind-Value="@EditItem.Price" />
     </EditForm>
-
-
 </div>
 
 @code {
-    private Item NewItem { get; set; } = new Item();
+
+    [Parameter]
+    public int Id { get; set; }
+    private Item EditItem { get; set; } = new Item();
+
+    protected override void OnInitialized()
+    {
+            EditItem = service.GetItemById(Id);
+    }
 
     private async Task AddItem()
     {
-        await service.AddItemAsync(NewItem);
+        await service.AddItemAsync(EditItem);
         navManager.NavigateTo("/allitems/");
     }
 
