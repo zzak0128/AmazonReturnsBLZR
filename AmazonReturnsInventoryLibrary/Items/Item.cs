@@ -14,6 +14,7 @@ namespace AmazonReturnsInventoryLibrary.Items
         [MaxLength(50, ErrorMessage = "Title needs to be less than 50 characters.")]
         public string Title { get; set; }
         public string Description { get; set; }
+        public int PalletNumber { get; set; }
         public Category Category { get; set; }
         public Condition Condition { get; set; }
         public string SKU { get; set; }

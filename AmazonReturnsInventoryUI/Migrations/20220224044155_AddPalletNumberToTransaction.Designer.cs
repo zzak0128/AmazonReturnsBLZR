@@ -4,14 +4,16 @@ using AmazonReturnsInventoryUI.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AmazonReturnsInventoryUI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220224044155_AddPalletNumberToTransaction")]
+    partial class AddPalletNumberToTransaction
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,9 +40,6 @@ namespace AmazonReturnsInventoryUI.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("OrderID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PalletNumber")
                         .HasColumnType("int");
 
                     b.Property<double>("Price")
@@ -70,7 +69,6 @@ namespace AmazonReturnsInventoryUI.Migrations
                             Category = "Pet",
                             Condition = "Used",
                             Description = "FurBuddy 26'' Dog Bed",
-                            PalletNumber = 0,
                             Price = 25.989999999999998,
                             SKU = "4492749273",
                             SoldPrice = 0.0,
@@ -168,6 +166,9 @@ namespace AmazonReturnsInventoryUI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("PalletNumber")
+                        .HasColumnType("int");
+
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -182,6 +183,7 @@ namespace AmazonReturnsInventoryUI.Migrations
                             TransactionID = 1,
                             Cost = 20.550000000000001,
                             Description = "MyFirst Transaction",
+                            PalletNumber = 0,
                             Type = "Income"
                         });
                 });

@@ -7,8 +7,8 @@
         <DataAnnotationsValidator />
         <ValidationSummary />
         <div class="mb-3">
-                <button class="btn btn-primary" type="submit">Update</button>
-            
+            <button class="btn btn-primary" type="submit">Update</button>
+
             <button class="btn btn-secondary" type="button" @onclick="ToAll">Cancel</button>
         </div>
 
@@ -17,6 +17,9 @@
 
         <label for="description">Description</label>
         <InputTextArea id="description" class="form-control" @bind-Value="@EditItem.Description" />
+
+        <label for="pallet">Pallet#</label>
+        <InputNumber id="pallet" class="form-control" @bind-Value="@EditItem.PalletNumber" />
 
         <label for="sku">SKU</label>
         <InputText id="sku" class="form-control" @bind-Value="@EditItem.SKU" />

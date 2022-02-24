@@ -4,8 +4,8 @@
 
 <div class="row m-3">
     <EditForm Model="NewItem" OnValidSubmit="AddItem">
-        <DataAnnotationsValidator/>
-        <ValidationSummary/>
+        <DataAnnotationsValidator />
+        <ValidationSummary />
         <div class="mb-3">
             <button class="btn btn-primary" type="submit">Add</button>
             <button class="btn btn-secondary" type="button" @onclick="ToAll">Cancel</button>
@@ -17,6 +17,9 @@
 
         <label for="description">Description</label>
         <InputTextArea id="description" class="form-control" @bind-Value="@NewItem.Description" />
+
+        <label for="pallet">Pallet#</label>
+        <InputNumber id="pallet" class="form-control" @bind-Value="@NewItem.PalletNumber" />
 
         <label for="sku">SKU</label>
         <InputText id="sku" class="form-control" @bind-Value="@NewItem.SKU" />
@@ -39,8 +42,6 @@
 
         <label for="price">Amount</label>
         <InputNumber id="price" class="form-control" @bind-Value="@NewItem.Price" />
-
-
     </EditForm>
 
 

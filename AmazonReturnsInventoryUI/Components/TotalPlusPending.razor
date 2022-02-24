@@ -1,32 +1,34 @@
-﻿
-<div class="container">
+﻿<div class="container">
     <table class="table">
         <thead>
-            <th><h3>Transaction Totals</h3></th>
+        <th><h3>Transaction Totals</h3></th>
         </thead>
-            <tbody>
-
-                <tr class="table-danger">
-                    <td>Expenses</td>
-                    <td>-@Format.AsCurrency(totalExpense)</td>
-                </tr>
-                <tr class="table-success">
-                    <td>Income</td>
-                    <td>@Format.AsCurrency(totalIncome)</td>
-                </tr>
-                <tr class="table-warning">
-                    <td>Total Pending</td>
-                    <td>@Format.AsCurrency(pendingTotal)</td>
-                </tr>
-                <tr>
-                    <td>Profits</td>
-                    <td>@Format.AsCurrency(totalIncome - totalExpense)</td>
-                </tr>
-                <tr>
-                    <td>Profits Including Pending</td>
-                    <td>@Format.AsCurrency(pendingTotal + (totalIncome - totalExpense))</td>
-                </tr>
-            </tbody>
+        <tbody>
+            <tr class="table-danger">
+                <td>Expenses</td>
+                <td>-@Format.AsCurrency(totalExpense)</td>
+            </tr>
+            <tr class="table-success">
+                <td>Income</td>
+                <td>@Format.AsCurrency(totalIncome)</td>
+            </tr>
+            <tr class="table-danger">
+                <td>Shipping/Fees</td>
+                <td>@Format.AsCurrency(totalShipping)</td>
+            </tr>
+            <tr class="table-warning">
+                <td>Total Pending</td>
+                <td>@Format.AsCurrency(pendingTotal)</td>
+            </tr>
+            <tr>
+                <td>Profits</td>
+                <td>@Format.AsCurrency(totalIncome - totalExpense - totalShipping)</td>
+            </tr>
+            <tr>
+                <td>Profits Including Pending</td>
+                <td>@Format.AsCurrency(pendingTotal + (totalIncome - totalExpense - totalShipping))</td>
+            </tr>
+        </tbody>
     </table>
 </div>
 
@@ -40,10 +42,12 @@
     private double pendingTotal = 0.00;
     private double totalExpense = 0.00;
     private double totalIncome = 0.00;
+    private double totalShipping = 0.00;
     protected override void OnParametersSet()
     {
         GetPendingOrders();
         pendingTotal = GetOrderTotal(pendingOrders);
+        totalShipping = GetOrderShippingTotal(Orders);
         GetTransactionTotals(Transactions);
     }
 
@@ -62,12 +66,22 @@
         return output;
     }
 
+    private double GetOrderShippingTotal(List<Order> orders)
+    {
+        double output = 0.00;
+        foreach (var order in orders)
+        {
+            output += order.ShippingCost;
+        }
+        return output;
+    }
+
     private void GetTransactionTotals(List<Transaction> transactions)
     {
         double output = 0.00;
         foreach (var transaction in transactions)
         {
-            if(transaction.Type == TransactionType.Expense)
+            if (transaction.Type == TransactionType.Expense)
             {
                 totalExpense += transaction.Cost;
             }
