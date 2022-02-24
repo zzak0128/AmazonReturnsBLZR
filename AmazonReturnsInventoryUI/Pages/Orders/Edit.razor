@@ -1,0 +1,86 @@
+﻿@page "/allorders/edit/{id:int}"
+@inject OrderService service
+@inject ItemService itemService
+@inject NavigationManager navManager
+
+<div class="row m-3">
+    <EditForm Model="EditOrder" OnValidSubmit="UpdateOrder">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="mb-3">
+            <button class="btn btn-primary" type="submit">Save</button>
+
+            <button class="btn btn-secondary" type="button" @onclick="ToAll">Cancel</button>
+        </div>
+
+
+        <label for="title">Customer Name</label>
+        <InputText id="title" class="form-control" @bind-Value="@EditOrder.CustomerName" />
+
+        <label for="street">Street</label>
+        <InputText id="street" class="form-control" @bind-Value="@EditOrder.Street1" />
+        <InputText id="street2" class="form-control" @bind-Value="@EditOrder.Street2" />
+
+        <label for="city">City</label>
+        <InputText id="city" class="form-control" @bind-Value="@EditOrder.City" />
+
+        <label for="state">State</label>
+        <InputText id="state" class="form-control" @bind-Value="@EditOrder.State" />
+
+        <label for="zip">Zip Code</label>
+        <InputText id="zip" class="form-control" @bind-Value="@EditOrder.ZipCode" />
+
+        <label for="carrier">Shipping Carrier</label>
+        <InputSelect id="carrier" class="form-control" @bind-Value="@EditOrder.Carrier">
+            @foreach (var option in Enum.GetValues(typeof(ShippingCarrier)))
+            {
+                <option>@option</option>
+            }
+        </InputSelect>
+
+        <label for="items">Select Items</label>
+        <MultiSelect NoSelected="itemList" Selected="SelectedItems" />
+    </EditForm>
+</div>
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+    private Order EditOrder { get; set; } = new Order();
+    public List<Item> itemList = new List<Item>();
+    public List<Item> SelectedItems { get; set; } = new List<Item>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        EditOrder = service.GetOrderById(Id);
+        // AllItems
+        List<Item> items = await itemService.GetItemsAsync();
+        itemList = items.FindAll(i => i.SoldPrice == 0.00);
+
+        SelectedItems = EditOrder.Items;
+        foreach (var item in SelectedItems)
+        {
+            if (itemList.Contains(item))
+            {
+                itemList.Remove(item);
+            }
+        }
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+
+    }
+    private async Task UpdateOrder()
+    {
+        EditOrder.Items = SelectedItems;
+        await service.AddOrderAsync(EditOrder);
+        navManager.NavigateTo("/allorders/");
+    }
+
+    private void ToAll()
+    {
+        navManager.NavigateTo("/allorders", true);
+    }
+}

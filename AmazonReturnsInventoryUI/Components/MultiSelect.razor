@@ -1,63 +1,58 @@
 ﻿<div class="container">
     <div class="row">
-        
-        <div class="col">
-            <h6>Add To Order</h6>
-            <table class="table table-striped">
-                <thead>
-                <th>Item</th>
-                <th>Description</th>
-                <th>Original Price</th>
-                <th>Markdown Process</th>
-                </thead>
-                <tbody>
-                    @foreach (var item in NoSelected)
-                    {
-                        <tr>
-                            <td>@item.Title</td>
-                            <td>@item.Description</td>
-                            <td>@item.Price</td>
-                            <td>@Calc.MultiplyDoublesAsCurrency(item.Price, 0.75)</td>
-                            
-                            <td>
-                                <button class="btn btn-danger" type="button" @onclick="(()=>Select(item))">Add to Order</button>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
 
-        <div class="col">
-            <button type="button" @onclick="SelectAll">>></button>
-            <button type="button" @onclick="DeselectAll">@removeAllText</button>
-        </div>
-            <table class="table table-striped">
-                <thead>
-                    <th>Item</th>
-                    <th>Original Price</th>
-                    <th>Markdown Process</th>
-                    <th>Sold Price</th>
-                </thead>
-                <tbody>
-                    @foreach (var item in Selected)
-                    {
-                        <tr>
-                            <td>@item.Title</td>
-                            <td>@item.Price</td>
-                            <td>@Calc.MultiplyDoublesAsCurrency(item.Price,0.75)</td>
-                            <td>
-                                <EditForm Model="item">
-                                    <InputNumber @bind-Value="item.SoldPrice"/>
-                                </EditForm>
-                            </td>
-                            <td>
-                                <button class="btn btn-danger" type="button" @onclick="(()=>Deselect(item))">Remove</button>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+        <h4>Add To Order</h4>
+        <table class="table table-striped">
+            <thead>
+            <th>Item</th>
+            <th>Description</th>
+            <th>Original Price</th>
+            <th>Markdown Process</th>
+            </thead>
+            <tbody>
+                @foreach (var item in NoSelected)
+                {
+                    <tr>
+                        <td>@item.Title</td>
+                        <td>@item.Description</td>
+                        <td>@item.Price</td>
+                        <td>@Calc.MultiplyDoublesAsCurrency(item.Price, 0.75)</td>
+
+                        <td>
+                            <button class="btn btn-success" type="button" @onclick="(()=>Select(item))">Add to Order</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <br />
+        <h4>Items in Order</h4>
+        <table class="table table-striped">
+            <thead>
+            <th>Item</th>
+            <th>Original Price</th>
+            <th>Markdown Process</th>
+            <th>Sold Price</th>
+            </thead>
+            <tbody>
+                @foreach (var item in Selected)
+                {
+                    <tr>
+                        <td>@item.Title</td>
+                        <td>@item.Price</td>
+                        <td>@Calc.MultiplyDoublesAsCurrency(item.Price, 0.75)</td>
+                        <td>
+                            <EditForm Model="item">
+                                <InputNumber @bind-Value="item.SoldPrice" />
+                            </EditForm>
+                        </td>
+                        <td>
+                            <button class="btn btn-danger" type="button" @onclick="(()=>Deselect(item))">Remove</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
 </div>
 
@@ -67,6 +62,11 @@
     public List<Item> NoSelected { get; set; } = new List<Item>();
     [Parameter]
     public List<Item> Selected { get; set; } = new List<Item>();
+
+    protected override void OnParametersSet()
+    {
+        StateHasChanged();
+    }
 
     private void Select(Item item)
     {

@@ -30,9 +30,9 @@
         <div class="mb-3">
             <label class="form-label">Address</label>
             <input class="form-control" readonly value="@DetailOrder.Street1" />
-            @if(DetailOrder.Street2 != null)
+            @if (DetailOrder.Street2 != null)
             {
-              <input class="form-control" readonly value="@DetailOrder.Street2" />
+                <input class="form-control" readonly value="@DetailOrder.Street2" />
             }
             <input class="form-control" readonly value="@DetailOrder.City" />
             <input class="form-control" readonly value="@DetailOrder.State" />
@@ -40,14 +40,14 @@
 
         </div>
         <div class="mb-3">
-            <label class="form-label">Items</label>
+            <h4>Items on Order</h4>
             <table class="table table-striped">
                 <thead>
                     @*<tr>
-                        <th>
-                            <button class="btn btn-primary" @onclick="UpdateItemsPrice">Update Sold Prices</button>
-                        </th>
-                    </tr>*@
+                            <th>
+                                <button class="btn btn-primary" @onclick="UpdateItemsPrice">Update Sold Prices</button>
+                            </th>
+                        </tr>*@
                     <tr>
                         <th>Item</th>
                         <th>Original Price</th>
@@ -63,9 +63,9 @@
                             <td>@Format.AsCurrency(item.SoldPrice)</td>
                         </tr>
                     }
-                        <tr>
-                            <td>Order Total: @Format.AsCurrency(DetailOrder.OrderTotal)</td>
-                        </tr>
+                    <tr>
+                        <td>Order Total: @Format.AsCurrency(DetailOrder.OrderTotal)</td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -102,6 +102,6 @@
 
     private void ToEdit()
     {
-        navManager.NavigateTo($"/allOrders/new/{id}", true);
+        navManager.NavigateTo($"/allOrders/edit/{id}", true);
     }
 }

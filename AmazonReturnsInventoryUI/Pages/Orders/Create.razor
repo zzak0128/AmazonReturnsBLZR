@@ -1,4 +1,4 @@
-﻿@page "/allorders/new/{id:int}"
+﻿@page "/allorders/new/"
 @inject OrderService service
 @inject ItemService itemService
 @inject NavigationManager navManager
@@ -45,38 +45,15 @@
 </div>
 
 @code {
-
-    [Parameter]
-    public int? Id { get; set; }
     private Order NewOrder { get; set; } = new Order();
     public List<Item> itemList = new List<Item>();
     public List<Item> SelectedItems { get; set; } = new List<Item>();
 
     protected override async Task OnInitializedAsync()
     {
-        if (Id > 0)
-        {
-            NewOrder = service.GetOrderById(Id.Value);
-            SelectedItems = NewOrder.Items;
-            // AllItems
-            List<Item> items = await itemService.GetItemsAsync();
-            itemList = items.FindAll(i => i.SoldPrice == 0.00);
-            //SelectedItems
-        foreach (var item in itemList)
-        {
-            if (NewOrder.Items.Contains(item))
-            {
-                SelectedItems.Add(item);
-                itemList.Remove(item);
-            }
-        }
-    }
-    else
-    {
         List<Item> items = await itemService.GetItemsAsync();
         itemList = items.FindAll(i => i.SoldPrice == 0.00);
     }
-}
 
 private async Task AddOrder()
 {
