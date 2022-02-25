@@ -4,46 +4,20 @@
 
 <h3>Inventory</h3>
 
-<div class="container">
-            <div>
-                <button class="btn btn-primary" @onclick="NavigateToCreate">Add Item</button>
-            </div>
-            <div>
-                <h4>Sort by</h4>
+<div class="container-fluid">
+    <div>
+        <button class="btn btn-primary" @onclick="NavigateToCreate">Add Item</button>
 
-                <div class="btn-group">
-
-                    @if (isSortByTitle && !isSortByPrice)
-                    {
-                        <button class="btn btn-primary" type="button" @onclick="@SortItemsByTitle">Sort Title</button>
-                    }
-                    else
-                    {
-                        <button class="btn btn-secondary" type="button" @onclick="@SortItemsByTitle">Sort Title</button>
-                    }
-
-                    @if (isSortByPrice && !isSortByTitle)
-                    {
-                        <button class="btn btn-primary" type="button" @onclick="@SortItemsByPrice">Sort Price</button>
-                    }
-                    else
-                    {
-                        <button class="btn btn-secondary" type="button" @onclick="@SortItemsByPrice">Sort Price</button>
-                    }
-                </div>
-            </div>
-        <div>
-            <h4>Filter</h4>
-            @if (isFiltered)
-            {
-                <button class="btn btn-primary" type="button" @onclick="@FilterBySold">All Items</button>
-            }
-            else
-            {
-                <button class="btn btn-secondary" type="button" @onclick="@FilterBySold">Unsold Items</button>
-            }
-        </div>
+        @if (isFiltered)
+        {
+            <button class="btn btn-warning" type="button" @onclick="@FilterBySold">Not Sold</button>
+        }
+        else
+        {
+            <button class="btn btn-secondary" type="button" @onclick="@FilterBySold">All Items</button>
+        }
     </div>
+</div>
 
 <div class="container-fluid">
     <table class="table table-hover table-striped">
@@ -81,11 +55,11 @@
                         {
                             <td><input class="form-check-Input" type="checkbox" disabled="disabled" /></td>
                         }
-                    <td>
-                        <button class="btn btn-secondary" @onclick="(() => NavigateToDetails(item.ItemID))">Details</button>
-                        <button class="btn btn-secondary" @onclick="(() => NavigateToEdit(item.ItemID))">Edit</button>
-                        <button class="btn btn-danger" @onclick="(() => DeleteItem(item))">Delete</button>
-                    </td>
+                        <td>
+                            <button class="btn btn-secondary" @onclick="(() => NavigateToDetails(item.ItemID))">Details</button>
+                            <button class="btn btn-secondary" @onclick="(() => NavigateToEdit(item.ItemID))">Edit</button>
+                            <button class="btn btn-danger" @onclick="(() => DeleteItem(item))">Delete</button>
+                        </td>
                     </tr>
                 }
             }
@@ -99,21 +73,19 @@
 
 
 @code {
-    private bool isSortByTitle = false;
-    private bool isSortByPrice = false;
     private bool isFiltered = false;
 
     List<Item> Items = new List<Item>();
     protected override async Task OnInitializedAsync()
     {
         await RefreshItems();
-        SortItemsByTitle();
         await FilterBySold();
     }
 
     private async Task RefreshItems()
     {
-        Items = await service.GetItemsAsync();
+        List<Item> allItems = await service.GetItemsAsync();
+        Items = allItems.OrderBy(o => o.PalletNumber).ThenBy(o => o.Title).ToList();
     }
 
     private void NavigateToCreate()
@@ -137,27 +109,6 @@
         await RefreshItems();
     }
 
-
-    private void SortItemsByTitle()
-    {
-        Items.Sort((i1, i2) => i1.Title.CompareTo(i2.Title));
-        isSortByTitle = true;
-        if (isSortByPrice)
-        {
-            isSortByPrice = false;
-        }
-    }
-
-    private void SortItemsByPrice()
-    {
-        Items.Sort((i1, i2) => i1.Price.CompareTo(i2.Price));
-        isSortByPrice = true;
-        if (isSortByTitle)
-        {
-            isSortByTitle = false;
-        }
-    }
-
     private async Task FilterBySold()
     {
         isFiltered = !isFiltered;
@@ -165,11 +116,11 @@
         if (isFiltered)
         {
 
-            Items = allItems.Where(i => i.SoldPrice == 0).ToList();
+            Items = allItems.Where(i => i.SoldPrice == 0).OrderBy(i => i.PalletNumber).ThenBy(i => i.Title).ToList();
         }
         else
         {
-            Items = allItems;
+            await RefreshItems();
         }
 
     }

@@ -7,8 +7,16 @@
 <h3>Orders</h3>
 
 <div class="container">
-    <div class="mb-3">
+    <div>
         <button class="btn btn-primary" @onclick="NavigateToCreate">Start an Order</button>
+        @if (isFilteredByProgress)
+        {
+            <button class="btn btn-warning" @onclick="FilterByProgress">In Process</button>
+        }
+        else
+        {
+            <button class="btn btn-secondary" @onclick="FilterByProgress">All Orders</button>
+        }
     </div>
 </div>
 
@@ -54,6 +62,7 @@
                         <td>@Format.AsCurrency(order.OrderTotal - order.ShippingCost)</td>
                         <td>
                             <button class="btn btn-secondary" @onclick="(() => ViewDetails(order.OrderID))">Details</button>
+                            <button class="btn btn-secondary" @onclick="(() => NavigateToEdit(order.OrderID))">Edit</button>
                             <button class="btn btn-danger" @onclick="(() => DeleteOrder(order))">Delete</button>
                         </td>
                     </tr>
@@ -72,6 +81,8 @@
     public Transaction NewTransaction { get; set; } = new Transaction();
     List<Item> items = new List<Item>();
     List<Order> Orders = new List<Order>();
+    bool isFilteredByProgress = false;
+
     protected override async Task OnInitializedAsync()
     {
         items = await iService.GetItemsAsync();
@@ -117,9 +128,28 @@
         await tService.AddTransactionAsync(NewTransaction);
     }
 
+    private async Task FilterByProgress()
+    {
+        List<Order> allOrders = await service.GetOrdersAsync();
+        isFilteredByProgress = !isFilteredByProgress;
+        if (isFilteredByProgress)
+        {
+            Orders = allOrders.FindAll(o => o.Status != OrderStatus.Delivered).ToList();
+        }
+        else
+        {
+            Orders = allOrders;
+        }
+    }
+
     private void NavigateToCreate()
     {
-        navManager.NavigateTo("/allorders/new/0");
+        navManager.NavigateTo("/allorders/new");
+    }
+
+    private void NavigateToEdit(int id)
+    {
+        navManager.NavigateTo($"/allorders/Edit/{id}");
     }
 
     private void ViewDetails(int id)

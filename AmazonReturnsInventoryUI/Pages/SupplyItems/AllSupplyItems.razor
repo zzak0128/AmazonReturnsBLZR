@@ -5,16 +5,13 @@
 <h3>Supplies</h3>
 
 <div class="container">
-    <div class="mb-3">
-        <button class="btn btn-primary" @onclick="NavigateToCreate">Add Supply Item</button>
-    </div>
+     <button class="btn btn-primary" @onclick="NavigateToCreate">Add Supply Item</button>
 </div>
 
 <div class="container">
     <table class="table table-hover table-striped">
         <thead>
             <tr>
-                <th>#   </th>
                 <th>Item</th>
                 <th>Description</th>
                 <th>Quantity</th>
@@ -29,7 +26,6 @@
                 @foreach (var supplyItem in SupplyItems)
                 {
             <tr >
-                <td>@supplyItem.SupplyID</td>
                 <td>@supplyItem.Title</td>
                 <td>@supplyItem.Description</td>
                 <td>@supplyItem.Quantity</td>
@@ -45,7 +41,7 @@
             }
             else
             {
-                <tr><td colspan="6"><strong>No Transactions</strong></td></tr>
+                <tr><td colspan="5"><strong>No supplies available</strong></td></tr>
             }
         </tbody>
     </table>
@@ -63,11 +59,8 @@
 
     private async Task RefreshSupplyItems()
     {
-        SupplyItems = await service.GetSupplyItemsAsync();
-        SupplyItems.Sort((s1, s2) =>
-        {
-            return s1.Title.CompareTo(s2.Title);
-        });
+        List<SupplyItem> AllItems = await service.GetSupplyItemsAsync();
+        SupplyItems = AllItems.OrderBy(i => i.Title).ToList();
     }
 
     private void NavigateToDetail(int id)
