@@ -1,39 +1,28 @@
 ﻿<h3>Items by Category</h3>
 
+<table class="table table-striped" >
+    <thead>
+        <th>Category</th>
+        <th>Count</th>
+    </thead>
+    <tbody>
+        
+        @foreach (var category in Enum.GetValues(typeof(Category)))
+        {
+            if (getCountPerCategory(AsCategory(category.ToString())) > 0)
+            {
+                <tr>
+                    <td>@category</td>
+                    <td>@getCountPerCategory(AsCategory(category.ToString()))</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
 @*@foreach (var category in Enum.GetNames(typeof(Category))
 {
     <div class="progress">
         <div class="progress-bar" role="progressbar" style="width: @Calc.FigurePercentage(getCategoryCount(category))%" aria-valuenow="@getCategoryCount(category)" aria-valuemin="0" aria-valuemax="@totalItems">@category</div>
     </div>
 }*@
-
-@code {
-        [Inject]
-        protected ItemService iService { get; set; }
-
-    public List<Item> Items { get; set; }
-
-    private int totalItems = 0;
-
-    protected override async Task OnInitializedAsync()
-    {
-        Items = await iService.GetItemsAsync();
-        foreach (var item in Items)
-        {
-            totalItems += 1;
-        }
-    }
-
-    private int getCategoryCount(Category category)
-    {
-        int output = 0;
-        foreach (var item in Items)
-        {
-            if(item.Category == category)
-            {
-                output += 1;
-            }
-        }
-        return output;
-    }
-}
