@@ -4,10 +4,21 @@ namespace AmazonReturnsInventoryLibrary.Items
 {
     public enum Category
     {
-        Pet,
+        Clothing,
+        Books,
+        Entertainment,
+        Electronics,
+        Computers,
         Home,
-        Bathroom,
-        Kitchen,
+        Garden,
+        Tools,
+        PetSupplies,
+        Grocery,
+        Beauty,
+        Health,
+        Children,
+        Sports,
+        Outdoors,
         Auto
     }
 }
