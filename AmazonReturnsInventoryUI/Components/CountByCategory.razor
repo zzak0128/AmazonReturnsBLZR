@@ -1,0 +1,29 @@
+﻿<div class="container">
+    <table class="table table-striped">
+        <thead>
+        <th><h3>Items by Category</h3></th>
+        <th>Count</th>
+        <th>Perecent of Total</th>
+        </thead>
+        <tbody>
+
+            @foreach (var category in Enum.GetValues(typeof(Category)))
+            {
+                if (getCountPerCategory(category.ToString()) > 0)
+                {
+                    <tr>
+                        <td>@category</td>
+                        <td>@getCountPerCategory(category.ToString())</td>
+                        <td>@CalculatePercentage(getCountPerCategory(category.ToString()))</td>
+                    </tr>
+                }
+            }
+            <tr class="table-info">
+                <td><strong>Totals:</strong></td>
+                <td>@totalItems</td>
+                <td>100%</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+

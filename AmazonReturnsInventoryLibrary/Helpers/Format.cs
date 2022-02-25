@@ -7,5 +7,10 @@ namespace AmazonReturnsInventoryLibrary.Helpers
         {
             return input.ToString("C");
         }
+
+        public static string AsPercentage(double input)
+        {
+            return $"{input.ToString("n2")}%";
+        }
     }
 }

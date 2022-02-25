@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AmazonReturnsInventoryLibrary.Helpers;
 using AmazonReturnsInventoryLibrary.Items;
 using AmazonReturnsInventoryUI.Model.Items;
 using Microsoft.AspNetCore.Components;
 
 namespace AmazonReturnsInventoryUI.Components
 {
-    public partial class ExpenseByCategory
+    public partial class CountByCategory
     {
         [Parameter]
         public List<Item> Items { get; set; }
@@ -22,8 +23,12 @@ namespace AmazonReturnsInventoryUI.Components
             totalItems = Items.Count();
         }
 
-        private int getCountPerCategory(Category category)
+        private int getCountPerCategory(string stringCategory)
         {
+            Category category;
+
+            Enum.TryParse(stringCategory, true, out category);
+
             int itemCount = 0;
             foreach (var item in Items)
             {
@@ -35,12 +40,12 @@ namespace AmazonReturnsInventoryUI.Components
             return itemCount;
         }
 
-        private Category AsCategory(string stringCategory)
+        private string CalculatePercentage(int categoryCount)
         {
-            Category output;
+            string output = "";
 
-            Enum.TryParse(stringCategory, true, out output);
-
+            double percentage = ((double)categoryCount / (double)totalItems) * 100;
+            output = $"{Format.AsPercentage(percentage)}";
             return output;
         }
     }
