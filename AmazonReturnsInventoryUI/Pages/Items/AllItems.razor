@@ -39,7 +39,7 @@
             {
                 @foreach (var item in Items)
                 {
-                    <tr>
+                    <tr @ondblclick="(() => NavigateToDetails(item.ItemID))">
                         <td>@item.PalletNumber</td>
                         <td>@item.Title</td>
                         <td class="col-3">@item.Description</td>
@@ -55,8 +55,8 @@
                         {
                             <td><input class="form-check-Input" type="checkbox" disabled="disabled" /></td>
                         }
-                        <td class="col-3">
-                            <button class="btn btn-secondary" @onclick="(() => NavigateToDetails(item.ItemID))">Details</button>
+                        <td class="col-2">
+                            @*<button class="btn btn-secondary" @onclick="(() => NavigateToDetails(item.ItemID))">Details</button>*@
                             <button class="btn btn-secondary" @onclick="(() => NavigateToEdit(item.ItemID))">Edit</button>
                             <button class="btn btn-danger" @onclick="(() => DeleteItem(item))">Delete</button>
                         </td>

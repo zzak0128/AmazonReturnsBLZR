@@ -14,8 +14,6 @@ namespace AmazonReturnsInventoryUI.Components
         [Parameter]
         public List<Item> Items { get; set; }
 
-
-        public List<Category> categoryList = new List<Category>();
         private int totalItems = 0;
 
         protected override void OnParametersSet()

@@ -25,14 +25,14 @@
             {
                 @foreach (var supplyItem in SupplyItems)
                 {
-            <tr >
+            <tr @ondblclick="(() => NavigateToDetail(supplyItem.SupplyID))">
                 <td>@supplyItem.Title</td>
                 <td>@supplyItem.Description</td>
                 <td>@supplyItem.Quantity</td>
                 <td>@supplyItem.Unit</td>
                 <td>@Format.AsCurrency(supplyItem.Price)</td>
-                <td class="col-3">
-                    <button class="btn btn-secondary" type="button" @onclick="(() => NavigateToDetail(supplyItem.SupplyID))">Details</button>
+                <td class="col-2">
+                    @*<button class="btn btn-secondary" type="button" @onclick="(() => NavigateToDetail(supplyItem.SupplyID))">Details</button>*@
                     <button class="btn btn-secondary" type="button" @onclick="(() => NavigateToEdit(supplyItem.SupplyID))">Edit</button>
                     <button class="btn btn-danger" type="button" @onclick="(() => DeleteSupplyItem(supplyItem))">Delete</button>
                 </td>

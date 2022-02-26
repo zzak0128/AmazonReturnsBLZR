@@ -38,7 +38,7 @@
             {
                 @foreach (var order in Orders)
                 {
-                    <tr>
+                    <tr @ondblclick="(() => ViewDetails(order.OrderID))">
                         <td>@order.OrderID</td>
                         <td>
                             @foreach (var item in order.Items)
@@ -54,14 +54,14 @@
                         </td>
                         <td>
                             <div class="btn-group-sm btn-group-vertical" role="group" aria-label="order-status">
-                                <button type="button" class="btn btn-secondary" @onclick="(()=>MarkInProcess(order))">In Process</button>
+                                @*<button type="button" class="btn btn-secondary" @onclick="(()=>MarkInProcess(order))">In Process</button>*@
                                 <button type="button" class="btn btn-primary" @onclick="(()=>MarkShipped(order))">Shipped</button>
                                 <button type="button" class="btn btn-success" @onclick="(()=>MarkDelivered(order))">Delivered</button>
                             </div>
                         </td>
                         <td>@Format.AsCurrency(order.OrderTotal - order.ShippingCost)</td>
-                        <td class="col-3">
-                            <button class="btn btn-secondary" @onclick="(() => ViewDetails(order.OrderID))">Details</button>
+                        <td class="col-2">
+                            @*<button class="btn btn-secondary" @onclick="(() => ViewDetails(order.OrderID))">Details</button>*@
                             <button class="btn btn-secondary" @onclick="(() => NavigateToEdit(order.OrderID))">Edit</button>
                             <button class="btn btn-danger" @onclick="(() => DeleteOrder(order))">Delete</button>
                         </td>
