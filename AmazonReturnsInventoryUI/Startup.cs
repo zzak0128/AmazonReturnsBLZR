@@ -35,7 +35,7 @@ namespace AmazonReturnsInventoryUI
             services.AddServerSideBlazor();
             services.AddDbContext<ApplicationDbContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("Docker"));
+                options.UseSqlServer(Configuration.GetConnectionString("Azure"));
             });
 
             //services.AddDbContext<ApplicationDbContext>(options =>
