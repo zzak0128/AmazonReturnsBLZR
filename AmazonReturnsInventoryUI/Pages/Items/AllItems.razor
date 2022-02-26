@@ -42,7 +42,7 @@
                     <tr>
                         <td>@item.PalletNumber</td>
                         <td>@item.Title</td>
-                        <td>@item.Description</td>
+                        <td class="col-3">@item.Description</td>
                         <td>@item.Category</td>
                         <td>@item.Condition</td>
                         <td>@Format.AsCurrency(item.Price)</td>
@@ -55,7 +55,7 @@
                         {
                             <td><input class="form-check-Input" type="checkbox" disabled="disabled" /></td>
                         }
-                        <td>
+                        <td class="col-3">
                             <button class="btn btn-secondary" @onclick="(() => NavigateToDetails(item.ItemID))">Details</button>
                             <button class="btn btn-secondary" @onclick="(() => NavigateToEdit(item.ItemID))">Edit</button>
                             <button class="btn btn-danger" @onclick="(() => DeleteItem(item))">Delete</button>

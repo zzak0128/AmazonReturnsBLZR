@@ -60,7 +60,7 @@
                             </div>
                         </td>
                         <td>@Format.AsCurrency(order.OrderTotal - order.ShippingCost)</td>
-                        <td>
+                        <td class="col-3">
                             <button class="btn btn-secondary" @onclick="(() => ViewDetails(order.OrderID))">Details</button>
                             <button class="btn btn-secondary" @onclick="(() => NavigateToEdit(order.OrderID))">Edit</button>
                             <button class="btn btn-danger" @onclick="(() => DeleteOrder(order))">Delete</button>

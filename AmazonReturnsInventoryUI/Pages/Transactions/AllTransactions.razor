@@ -79,7 +79,7 @@
                         <td>@transaction.Description</td>
                         <td>@transaction.Type</td>
                         <td>@Format.AsCurrency(transaction.Cost)</td>
-                        <td>
+                        <td class="col-3">
                             <button class="btn btn-secondary" @onclick="(() => ViewDetails(transaction.TransactionID))">Details</button>
                             <button class="btn btn-secondary" @onclick="(() => NavigateToEdit(transaction.TransactionID))">Edit</button>
                             <button class="btn btn-danger" @onclick="(() => DeleteTransaction(transaction))">Delete</button>

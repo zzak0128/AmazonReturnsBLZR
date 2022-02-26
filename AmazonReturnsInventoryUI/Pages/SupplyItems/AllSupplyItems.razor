@@ -31,7 +31,7 @@
                 <td>@supplyItem.Quantity</td>
                 <td>@supplyItem.Unit</td>
                 <td>@Format.AsCurrency(supplyItem.Price)</td>
-                <td>
+                <td class="col-3">
                     <button class="btn btn-secondary" type="button" @onclick="(() => NavigateToDetail(supplyItem.SupplyID))">Details</button>
                     <button class="btn btn-secondary" type="button" @onclick="(() => NavigateToEdit(supplyItem.SupplyID))">Edit</button>
                     <button class="btn btn-danger" type="button" @onclick="(() => DeleteSupplyItem(supplyItem))">Delete</button>
