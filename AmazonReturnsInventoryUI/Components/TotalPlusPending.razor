@@ -1,16 +1,16 @@
 ﻿<div class="container">
     <table class="table">
-        <thead>
-        <th><h3>Transaction Totals</h3></th>
+        <thead class="table-info">
+        <th colspan="2"><h3>Profits</h3></th>
         </thead>
         <tbody>
-            <tr class="table-danger">
-                <td>Expenses</td>
-                <td>-@Format.AsCurrency(totalExpense)</td>
-            </tr>
             <tr class="table-success">
                 <td>Income</td>
                 <td>@Format.AsCurrency(totalIncome)</td>
+            </tr>
+            <tr class="table-danger">
+                <td>Expenses</td>
+                <td>-@Format.AsCurrency(totalExpense)</td>
             </tr>
             <tr class="table-danger">
                 <td>Shipping/Fees</td>
@@ -24,8 +24,8 @@
                 <td>Profits</td>
                 <td>@Format.AsCurrency(totalIncome - totalExpense - totalShipping)</td>
             </tr>
-            <tr>
-                <td>Profits Including Pending</td>
+            <tr class="table-info">
+                <td><strong>Profits w/ Pending</strong></td>
                 <td>@Format.AsCurrency(pendingTotal + (totalIncome - totalExpense - totalShipping))</td>
             </tr>
         </tbody>

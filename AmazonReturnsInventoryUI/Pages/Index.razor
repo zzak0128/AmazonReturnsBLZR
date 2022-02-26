@@ -1,13 +1,21 @@
 ﻿@page "/"
 
 <h1>Home</h1>
-<TotalPlusPending Transactions="AllTransactions" Orders="AllOrders"/>
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <TotalPlusPending Transactions="AllTransactions" Orders="AllOrders" />
+            <CountByCategory Items="AllItems" />
+        </div>
+        <div class="col-6">
+            <OrderInProgress Orders="AllOrders" />
+            <SuppliesSummary Supplies="AllSupplies" />
+        </div>
+    </div>
+</div>
 
-@*<OrderInProgress service="@oService" />*@
 
-<SuppliesSummary Supplies="AllSupplies" />
 
-<CountByCategory Items="AllItems"/>
 
 
 @code {

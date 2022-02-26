@@ -1,41 +1,25 @@
-﻿<h3>Orders In Progress</h3>
-
-<div class="container-md">
+﻿<div class="container">
     <table class="table table-striped">
+        <thead class="table-info">
+            <th colspan="3"><h3>Orders in Process</h3></th>
+            <th><h3>@inProcessOrders.Count()</h3></th>
+        </thead>
         <tbody>
-            @foreach (var order in Orders)
+            @foreach (var order in inProcessOrders)
             {
                 <tr>
                     <td>@order.CustomerName</td>
-                    @*<td>
-                            @foreach (var item in order.Items)
-                            {
-                                @item.Title
-                                <br/>
-                            }
-                      </td>*@
+                    <td>
+                        @foreach (var item in order.Items)
+                        {
+                            @item.Title
+                            <br />
+                        }
+                    </td>
                     <td>@order.Carrier</td>
+                    <td>@Format.AsCurrency(order.OrderTotal)</td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
-
-@code {
-    [Parameter]
-    public OrderService service { get; set; }
-
-    List<Order> Orders { get; set; } = new List<Order>();
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        await GetOrdersInProgressAsync();
-    }
-
-    private async Task GetOrdersInProgressAsync()
-    {
-        Orders = await service.GetOrdersAsync();
-        Orders = Orders.FindAll(o => o.Status == OrderStatus.InProcess);
-        StateHasChanged();
-    }
-}
