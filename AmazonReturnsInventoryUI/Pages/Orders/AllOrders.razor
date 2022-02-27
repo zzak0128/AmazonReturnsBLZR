@@ -59,7 +59,7 @@
                                 <button type="button" class="btn btn-success" @onclick="(()=>MarkDelivered(order))">Delivered</button>
                             </div>
                         </td>
-                        <td>@Format.AsCurrency(order.OrderTotal - order.ShippingCost)</td>
+                        <td>@Format.AsCurrency(order.OrderTotal - order.ShippingCost - order.SellingFees)</td>
                         <td class="col-2">
                             @*<button class="btn btn-secondary" @onclick="(() => ViewDetails(order.OrderID))">Details</button>*@
                             <button class="btn btn-secondary" @onclick="(() => NavigateToEdit(order.OrderID))">Edit</button>
@@ -111,6 +111,7 @@
         order.Status = OrderStatus.Delivered;
         await AddIncome(order);
         await service.AddOrderAsync(order);
+        StateHasChanged();
     }
 
     private async Task AddIncome(Order order)
@@ -123,7 +124,8 @@
 
         NewTransaction.Description = $"Sold Items: {itemStrings}";
         NewTransaction.Type = TransactionType.Income;
-        NewTransaction.Cost = order.OrderTotal;
+        double calulatedTotal = order.OrderTotal - order.SellingFees - order.ShippingCost;
+        NewTransaction.Cost = calulatedTotal;
 
         await tService.AddTransactionAsync(NewTransaction);
     }

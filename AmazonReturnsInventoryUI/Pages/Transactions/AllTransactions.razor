@@ -70,7 +70,7 @@
             {
                 @foreach (var transaction in Transactions)
                 {
-                    <tr @onclick="(() => ViewDetails(transaction.TransactionID))">
+                    <tr @ondblclick="(() => ViewDetails(transaction.TransactionID))">
                         <td>@transaction.TransactionID</td>
                         <td>@transaction.Description</td>
                         <td>@transaction.Type</td>
@@ -100,6 +100,7 @@
     public bool IsFilteredByIncome { get; set; } = false;
 
     List<Transaction> Transactions = new List<Transaction>();
+
     protected override async Task OnInitializedAsync()
     {
         await RefreshTransactions();
@@ -133,11 +134,7 @@
         await service.AddTransactionAsync(NewTransaction);
         NewTransaction = new Transaction();
         await RefreshTransactions();
-    }
-
-    private void NavigateToCreate()
-    {
-        navManager.NavigateTo("/alltransactions/new");
+        CalculateTotal();
     }
 
     private void ViewDetails(int id)
@@ -154,7 +151,6 @@
     {
         await service.DeleteTransactionAsync(transaction);
         await RefreshTransactions();
-        CalculateTotal();
     }
 
     private async Task FilterByExpense()

@@ -38,6 +38,9 @@
             }
         </InputSelect>
 
+        <label for="sell-fees">Selling Fees</label>
+        <InputNumber id="sell-fees" class="form-control" @bind-Value="@EditOrder.SellingFees" />
+
         <label for="ship-cost">Shipping Cost</label>
         <InputNumber id="ship-cost" class="form-control" @bind-Value="@EditOrder.ShippingCost" />
 

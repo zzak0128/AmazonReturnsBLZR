@@ -19,11 +19,13 @@ namespace AmazonReturnsInventoryUI.Components
         private double totalExpense = 0.00;
         private double totalIncome = 0.00;
         private double totalShipping = 0.00;
+        private double totalFees = 0.00;
         protected override void OnParametersSet()
         {
             GetPendingOrders();
             pendingTotal = GetOrderTotal(pendingOrders);
             totalShipping = GetOrderShippingTotal(Orders);
+            totalFees = GetOrderFeesTotal(Orders);
             GetTransactionTotals(Transactions);
         }
 
@@ -48,6 +50,16 @@ namespace AmazonReturnsInventoryUI.Components
             foreach (var order in orders)
             {
                 output += order.ShippingCost;
+            }
+            return output;
+        }
+
+        private double GetOrderFeesTotal(List<Order> orders)
+        {
+            double output = 0.00;
+            foreach (var order in orders)
+            {
+                output += order.SellingFees;
             }
             return output;
         }

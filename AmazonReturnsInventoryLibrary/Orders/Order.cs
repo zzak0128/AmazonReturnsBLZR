@@ -26,5 +26,7 @@ namespace AmazonReturnsInventoryLibrary.Orders
         public double OrderTotal { get; set; } = 0.00;
         [DataType(DataType.Currency)]
         public double ShippingCost { get; set; } = 0.00;
+        [DataType(DataType.Currency)]
+        public double SellingFees { get; set; } = 0.00;
     }
 }
