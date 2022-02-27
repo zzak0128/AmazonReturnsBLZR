@@ -13,20 +13,24 @@
                 <td>-@Format.AsCurrency(totalExpense)</td>
             </tr>
             <tr class="table-danger">
-                <td>Shipping/Fees</td>
+                <td>Fees</td>
+                <td>@Format.AsCurrency(totalFees)</td>
+            </tr>
+            <tr class="table-danger">
+                <td>Shipping</td>
                 <td>@Format.AsCurrency(totalShipping)</td>
             </tr>
             <tr class="table-warning">
-                <td>Total Pending</td>
+                <td>Total Pending Profits</td>
                 <td>@Format.AsCurrency(pendingTotal)</td>
             </tr>
             <tr>
                 <td>Profits</td>
-                <td>@Format.AsCurrency(totalIncome - totalExpense - totalShipping)</td>
+                <td>@Format.AsCurrency(totalIncome - totalExpense - totalShipping - totalFees)</td>
             </tr>
             <tr class="table-info">
                 <td><strong>Profits w/ Pending</strong></td>
-                <td>@Format.AsCurrency(pendingTotal + (totalIncome - totalExpense - totalShipping))</td>
+                <td>@Format.AsCurrency(pendingTotal + (totalIncome - totalExpense - totalShipping - totalFees))</td>
             </tr>
         </tbody>
     </table>

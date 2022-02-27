@@ -65,13 +65,18 @@
                     }
                     <tr>
                         <td></td>
+                        <td><strong>Selling Fees:</strong></td>
+                        <td>@Format.AsCurrency(DetailOrder.SellingFees)</td>
+                    </tr>
+                    <tr>
+                        <td></td>
                         <td><strong>Shipping Cost:</strong></td>
                         <td>@Format.AsCurrency(DetailOrder.ShippingCost)</td>
                     </tr>
                     <tr>
                         <td></td>
                         <td><strong>Order Total:</strong></td>
-                        <td>@Format.AsCurrency(DetailOrder.OrderTotal - DetailOrder.ShippingCost)</td>
+                        <td>@Format.AsCurrency(DetailOrder.OrderTotal - DetailOrder.ShippingCost - DetailOrder.SellingFees)</td>
                     </tr>
                 </tbody>
             </table>
