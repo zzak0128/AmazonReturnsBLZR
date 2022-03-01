@@ -25,6 +25,7 @@
     <None Remove="Model\SupplyItems\" />
     <None Remove="Pages\SupplyItems\" />
     <None Remove="Microsoft.EntityFrameworkCore.SqlServer" />
+    <None Remove="Properties\PublishProfiles\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Model\" />
@@ -37,6 +38,7 @@
     <Folder Include="Components\" />
     <Folder Include="Model\SupplyItems\" />
     <Folder Include="Pages\SupplyItems\" />
+    <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.22">
