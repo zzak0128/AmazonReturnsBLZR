@@ -50,7 +50,7 @@ namespace AmazonReturnsInventoryUI.Model
         {
             return new List<Item>
             {
-                new Item { ItemID = 1, SKU="4492749273", Title = "Dog Bed", Description = "FurBuddy 26'' Dog Bed", Category = Category.PetSupplies, Condition = Condition.Used, Price = 25.99 }
+                new Item { ItemID = 1, Url=@"https://amazon.com", Title = "Dog Bed", Description = "FurBuddy 26'' Dog Bed", Category = Category.PetSupplies, Condition = Condition.Used, Price = 25.99 }
             };
         }
     }
