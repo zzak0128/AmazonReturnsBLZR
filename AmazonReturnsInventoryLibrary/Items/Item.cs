@@ -17,7 +17,8 @@ namespace AmazonReturnsInventoryLibrary.Items
         public int PalletNumber { get; set; }
         public Category Category { get; set; }
         public Condition Condition { get; set; }
-        public string SKU { get; set; }
+        [DataType(DataType.Url)]
+        public string Url { get; set; }
         [Required]
         [DataType(DataType.Currency)]
         public double Price { get; set; }
