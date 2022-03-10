@@ -125,6 +125,9 @@ project.lock.json
 project.fragment.lock.json
 artifacts/
 
+# appSettings to stop upload of connection string
+*/appsettings.json
+
 # StyleCop
 StyleCopReport.xml
 
