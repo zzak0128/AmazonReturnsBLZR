@@ -23,6 +23,9 @@
     <table class="table table-hover table-striped">
         <thead>
             <tr>
+            <th colspan="3"><input class="form-control" type="text" placeholder="Search" @bind-value="searchText" @bind-value:event="oninput"/></th>
+            </tr>
+            <tr>
                 <th>Pallet#</th>
                 <th>Title</th>
                 <th>Description</th>
@@ -37,7 +40,7 @@
 
             @if (Items.Any())
             {
-                @foreach (var item in Items)
+                @foreach (var item in FilteredItems)
                 {
                     <tr @ondblclick="(() => NavigateToDetails(item.ItemID))">
                         <td>@item.PalletNumber</td>
@@ -74,8 +77,11 @@
 
 @code {
     private bool isFiltered = false;
+    private string searchText = "";
 
     List<Item> Items = new List<Item>();
+    List<Item> FilteredItems => Items.Where(i => i.Title.ToLower().Contains(searchText.ToLower())).ToList();
+
     protected override async Task OnInitializedAsync()
     {
         await RefreshItems();

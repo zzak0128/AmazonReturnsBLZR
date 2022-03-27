@@ -81,7 +81,7 @@
     public Transaction NewTransaction { get; set; } = new Transaction();
     List<Item> items = new List<Item>();
     List<Order> Orders = new List<Order>();
-    bool isFilteredByProgress = false;
+    bool isFilteredByProgress = true;
 
     protected override async Task OnInitializedAsync()
     {
