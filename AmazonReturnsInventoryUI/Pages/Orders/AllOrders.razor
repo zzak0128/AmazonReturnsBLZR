@@ -86,7 +86,7 @@
     protected override async Task OnInitializedAsync()
     {
         items = await iService.GetItemsAsync();
-        RefreshOrders();
+        await RefreshOrders();
         await FilterByProgress();
     }
 
