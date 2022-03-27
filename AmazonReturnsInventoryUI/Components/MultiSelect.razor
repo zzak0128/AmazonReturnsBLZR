@@ -4,13 +4,19 @@
         <h4>Add To Order</h4>
         <table class="table table-striped">
             <thead>
+                <tr>
+                    <th colspan="2"><input class="form-control" type="text" placeholder="Search" @bind-value="searchText" @bind-value:event="oninput" /></th>
+                    <th><button type="button" class="btn btn-secondary" @onclick="ClearSearchText">Clear</button></th>
+                </tr>
+                <tr>
             <th>Item</th>
             <th>Description</th>
             <th>Original Price</th>
             <th>Markdown Process</th>
+            </tr>
             </thead>
             <tbody>
-                @foreach (var item in NoSelected)
+                @foreach (var item in FilteredItems)
                 {
                     <tr>
                         <td>@item.Title</td>
